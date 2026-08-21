@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Vault | Neon Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #0A0C10;
+            --surface-level: #141820;
+            --primary-neon: #00daf3;
+            --primary-glow: rgba(0, 218, 243, 0.2);
+            --on-surface: #e2e2e8;
+            --outline-variant: #3b494c;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-base); color: var(--on-surface); font-family: 'Geist', sans-serif; }
+
+        /* NAV STYLING */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--outline-variant); background: rgba(20, 24, 32, 0.8); backdrop-filter: blur(10px); }
+        .brand { font-family: var(--font-display); font-size: 20px; color: var(--on-surface); text-decoration: none; }
+        .brand span { color: var(--primary-neon); }
+
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+
+        /* SEMESTER TABS */
+        .tab-bar { display: flex; gap: 0.5rem; margin-bottom: 3rem; overflow-x: auto; padding-bottom: 1rem; }
+        .sem-tab { 
+            background: var(--surface-level); border: 1px solid var(--outline-variant); color: var(--on-surface);
+            padding: 12px 24px; cursor: pointer; font-family: var(--font-code); font-size: 12px;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .sem-tab.active { border-color: var(--primary-neon); color: var(--primary-neon); box-shadow: 0 0 10px var(--primary-glow); }
+        .sem-tab:hover { border-color: var(--primary-neon); }
+
+        /* CONTENT GRID */
+        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+        .column-header { font-family: var(--font-code); color: var(--primary-neon); margin-bottom: 1rem; border-bottom: 1px solid var(--primary-neon); padding-bottom: 0.5rem; display: inline-block; }
+        
+        /* SUBJECT & UNIT ACCORDION STYLES */
+        .subject-card { background: var(--surface-level); border: 1px solid #2D3545; padding: 1.25rem; margin-bottom: 1rem; }
+        .subject-title { font-family: var(--font-display); font-size: 16px; color: #fff; margin-bottom: 0.75rem; border-left: 3px solid var(--primary-neon); padding-left: 8px; }
+        
+        .unit-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .unit-item { 
+            background: #0c0e12; border: 1px solid var(--outline-variant); padding: 0.75rem 1rem;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: 0.2s;
+        }
+        .unit-item:hover { border-color: var(--primary-neon); box-shadow: 0 0 8px rgba(0,218,243,0.1); }
+        .unit-title { font-size: 13px; color: var(--on-surface); }
+        .download-btn { color: var(--primary-neon); text-decoration: none; font-family: var(--font-code); font-size: 11px; white-space: nowrap; }
+
+        /* PYQ ARCHIVE LIST */
+        .pyq-scroll { max-height: 600px; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 0.5rem; }
+        .pyq-item { 
+            background: var(--surface-level); border: 1px solid #2D3545; padding: 0.85rem 1rem;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: 0.2s;
+        }
+        .pyq-item:hover { border-color: var(--primary-neon); box-shadow: 0 0 10px rgba(0,218,243,0.1); }
+        .pyq-title { font-family: var(--font-code); font-size: 12px; }
+
+        @media (max-width: 900px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="brand">SYS<span>.</span>VAULT</a>
+        <a href="index.html" style="color: var(--on-surface); font-family: var(--font-code); font-size: 12px; text-decoration: none;">[ RETURN_HOME ]</a>
+    </nav>
+
+    <div class="container">
+        <div class="tab-bar" id="tabBar"></div>
+
+        <div class="grid">
+            <section>
+                <div class="column-header">CHAPTER_WISE_NOTES (UNITS 1-5)</div>
+                <div id="notesContainer"></div>
+            </section>
+            
+            <section>
+                <div class="column-header">10_YEAR_PYQ_ARCHIVE (2016-2025)</div>
+                <div class="pyq-scroll" id="pyqList"></div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // FULL 1 TO 6 SEMESTER COMPUTER ENGINEERING CURRICULUM DATABASE
+        const curriculumData = {
+            sem1: {
+                subjects: [
+                    {
+                        name: "Fundamentals of IT & Computer Basics",
+                        units: [
+                            { title: "Unit 1: Computer Organization & Architecture Basics", link: "#" },
+                            { title: "Unit 2: Input/Output Devices & Memory Hierarchy", link: "#" },
+                            { title: "Unit 3: Operating Systems Overview & CLI", link: "#" },
+                            { title: "Unit 4: Office Automation Tools (Docs, Sheets, Slides)", link: "#" },
+                            { title: "Unit 5: Basic Internet Protocols & Cyber Safety", link: "#" }
+                        ]
+                    },
+                    {
+                        name: "Applied Mathematics - I",
+                        units: [
+                            { title: "Unit 1: Logarithms & Partial Fractions", link: "#" },
+                            { title: "Unit 2: Matrices and Determinants", link: "#" },
+                            { title: "Unit 3: Trigonometry & Compound Angles", link: "#" },
+                            { title: "Unit 4: Coordinate Geometry (Straight Lines)", link: "#" }
+                        ]
+                    }
+                ],
+                pyqs: Array.from({length: 10}, (_, i) => ({
+                    title: `Sem 1 All Subjects PYQ - ${2025 - i}`,
+                    link: "#"
+                }))
+            },
+            sem2: {
+                subjects: [
+                    {
+                        name: "Programming in C",
+                        units: [
+                            { title: "Unit 1: Overview of C, Data Types & Operators", link: "#" },
+                            { title: "Unit 2: Control Structures (Branching & Looping)", link: "#" },
+                            { title: "Unit 3: Arrays and Strings Handling", link: "#" },
+                            { title: "Unit 4: Functions, Storage Classes & Pointers", link: "#" },
+                            { title: "Unit 5: Structures, Unions & File Management", link: "#" }
+                        ]
+                    },
+                    {
+                        name: "Digital Electronics",
+                        units: [
+                            { title: "Unit 1: Number Systems & Boolean Algebra", link: "#" },
+                            { title: "Unit 2: Logic Gates & Karnaugh Maps (K-Map)", link: "#" },
+                            { title: "Unit 3: Combinational Circuits (Adders, Mux/DeMux)", link: "#" },
+                            { title: "Unit 4: Sequential Circuits (Flip-Flops, Counters, Registers)", link: "#" }
+                        ]
+                    }
+                ],
+                pyqs: Array.from({length: 10}, (_, i) => ({
+                    title: `Sem 2 All Subjects PYQ - ${2025 - i}`,
+                    link: "#"
+                }))
+            },
+            sem3: {
+                subjects: [
+                    {
+                        name: "Data Structures Using C++",
+                        units: [
+                            { title: "Unit 1: Introduction to DS & Complexity Analysis", link: "#" },
+                            { title: "Unit 2: Linear DS: Stacks and Queues Implementation", link: "#" },
+                            { title: "Unit 3: Linked Lists (Singly, Doubly, Circular)", link: "#" },
+                            { title: "Unit 4: Non-Linear DS: Trees & Binary Search Trees", link: "#" },
+                            { title: "Unit 5: Graph Traversals (BFS, DFS) & Sorting Algorithms", link: "#" }
+                        ]
+                    },
+                    {
+                        name: "Database Management Systems (DBMS)",
+                        units: [
+                            { title: "Unit 1: ER Models & Relational Database Architecture", link: "#" },
+                            { title: "Unit 2: Relational Algebra & SQL Commands (DDL, DML, DCL)", link: "#" },
+                            { title: "Unit 3: Database Normalization (1NF, 2NF, 3NF, BCNF)", link: "#" },
+                            { title: "Unit 4: Transaction Processing & Concurrency Control", link: "#" }
+                        ]
+                    }
+                ],
+                pyqs: Array.from({length: 10}, (_, i) => ({
+                    title: `Sem 3 All Subjects PYQ - ${2025 - i}`,
+                    link: "#"
+                }))
+            },
+            sem4: {
+                subjects: [
+                    {
+                        name: "Object Oriented Programming (OOPs through Java)",
+                        units: [
+                            { title: "Unit 1: Principles of OOP & Java Environment Setup", link: "#" },
+                            { title: "Unit 2: Classes, Objects, Constructors & Methods", link: "#" },
+                            { title: "Unit 3: Inheritance, Polymorphism & Packages", link: "#" },
+                            { title: "Unit 4: Exception Handling & Multithreading", link: "#" },
+                            { title: "Unit 5: Applets, AWT & Event Handling Basics", link: "#" }
+                        ]
+                    },
+                    {
+                        name: "Operating Systems",
+                        units: [
+                            { title: "Unit 1: OS Structure, Services & System Calls", link: "#" },
+                            { title: "Unit 2: Process Management & CPU Scheduling Algorithms", link: "#" },
+                            { title: "Unit 3: Process Synchronization & Deadlocks", link: "#" },
+                            { title: "Unit 4: Memory Management (Paging, Segmentation, Virtual Memory)", link: "#" },
+                            { title: "Unit 5: File Systems & Disk Scheduling", link: "#" }
+                        ]
+                    }
+                ],
+                pyqs: Array.from({length: 10}, (_, i) => ({
+                    title: `Sem 4 All Subjects PYQ - ${2025 - i}`,
+                    link: "#"
+                }))
+            },
+            sem5: {
+                subjects: [
+                    {
+                        name: "Computer Networks",
+                        units: [
+                            { title: "Unit 1: Network Models (OSI & TCP/IP Reference Models)", link: "#" },
+                            { title: "Unit 2: Transmission Media & Data Link Layer Protocols", link: "#" },
+                            { title: "Unit 3: Network Layer: IP Addressing (IPv4/IPv6) & Routing", link: "#" },
+                            { title: "Unit 4: Transport Layer: TCP, UDP & Flow Control", link: "#" },
+                            { title: "Unit 5: Application Layer Protocols (DNS, HTTP, FTP, SMTP)", link: "#" }
+                        ]
+                    },
+                    {
+                        name: "Web Technology & Python",
+                        units: [
+                            { title: "Unit 1: HTML5, CSS3 Layouts & Responsive Design", link: "#" },
+                            { title: "Unit 2: JavaScript Basics, DOM Manipulation & Events", link: "#" },
+                            { title: "Unit 3: Python Core Syntax, Control Flow & Functions", link: "#" },
+                            { title: "Unit 4: Python Data Structures (Lists, Dictionaries, Tuples)", link: "#" }
+                        ]
+                    }
+                ],
+                pyqs: Array.from({length: 10}, (_, i) => ({
+                    title: `Sem 5 All Subjects PYQ - ${2025 - i}`,
+                    link: "#"
+                }))
+            },
+            sem6: {
+                subjects: [
+                    {
+                        name: "Software Engineering & Entrepreneurship",
+                        units: [
+                            { title: "Unit 1: Software Development Life Cycle (SDLC) & Models", link: "#" },
+                            { title: "Unit 2: Requirements Engineering & Project Estimation", link: "#" },
+                            { title: "Unit 3: Software Design, Testing Strategies & QA", link: "#" },
+                            { title: "Unit 4: Startup Ecosystem, Intellectual Property Rights (IPR)", link: "#" }
+                        ]
+                    },
+                    {
+                        name: "Advanced Trends (Cloud Computing & Cyber Security)",
+                        units: [
+                            { title: "Unit 1: Cloud Computing Architecture (IaaS, PaaS, SaaS)", link: "#" },
+                            { title: "Unit 2: Virtualization & Cloud Storage Solutions", link: "#" },
+                            { title: "Unit 3: Information Security Fundamentals & Threats", link: "#" },
+                            { title: "Unit 4: Cryptography Basics, Firewalls & VPNs", link: "#" }
+                        ]
+                    }
+                ],
+                pyqs: Array.from({length: 10}, (_, i) => ({
+                    title: `Sem 6 All Subjects PYQ - ${2025 - i}`,
+                    link: "#"
+                }))
+            }
+        };
+
+        const render = (semId) => {
+            const data = curriculumData[semId];
+            const notesContainer = document.getElementById('notesContainer');
+            const pyqList = document.getElementById('pyqList');
+            
+            // Render Unit-Wise Notes grouped by Subject
+            notesContainer.innerHTML = data.subjects.map(sub => `
+                <div class="subject-card">
+                    <div class="subject-title">${sub.name}</div>
+                    <div class="unit-list">
+                        ${sub.units.map(unit => `
+                            <div class="unit-item">
+                                <span class="unit-title">${unit.title}</span>
+                                <a href="${unit.link}" class="download-btn">[ DOWNLOAD_PDF ]</a>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            // Render 10 Year PYQ Archive
+            pyqList.innerHTML = data.pyqs.map(p => `
+                <div class="pyq-item">
+                    <span class="pyq-title">${p.title}</span>
+                    <a href="${p.link}" class="download-btn">[ GET_PAPER ]</a>
+                </div>
+            `).join('');
+            
+            // Update Tab States
+            document.querySelectorAll('.sem-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-${semId}`).classList.add('active');
+        };
+
+        // Initialize Tab Navigation Buttons (Sem 1 to Sem 6)
+        const tabBar = document.getElementById('tabBar');
+        Object.keys(curriculumData).forEach((sem, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'sem-tab';
+            btn.id = `tab-${sem}`;
+            btn.innerText = `SEMESTER 0${index + 1}`;
+            btn.onclick = () => render(sem);
+            tabBar.appendChild(btn);
+        });
+
+        // Default Load Semester 1
+        render('sem1');
+    </script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Hardware Lab | Neon Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Model Viewer -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
+
+    <style>
+        :root {
+            --bg-base: #0A0C10;
+            --surface-level: #141820;
+            --surface-container: #1e2024;
+            --primary-neon: #00daf3;
+            --primary-glow: rgba(0, 218, 243, 0.2);
+            --on-surface: #e2e2e8;
+            --outline-variant: #3b494c;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-base); color: var(--on-surface); font-family: 'Geist', sans-serif; overflow-x: hidden; }
+
+        /* NAV STYLING */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--outline-variant); background: rgba(20, 24, 32, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+        .brand { font-family: var(--font-display); font-size: 20px; color: var(--on-surface); text-decoration: none; }
+        .brand span { color: var(--primary-neon); }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a { color: var(--on-surface); text-decoration: none; font-family: var(--font-code); font-size: 12px; }
+        .nav-links a:hover { color: var(--primary-neon); }
+
+        /* LAB LAYOUT */
+        .lab-layout { display: grid; grid-template-columns: 350px 1fr; height: calc(100vh - 74px); }
+
+        /* SIDEBAR */
+        .sidebar { background: var(--surface-level); border-right: 1px solid var(--outline-variant); display: flex; flex-direction: column; height: 100%; }
+        .sidebar-header { padding: 1rem; border-bottom: 1px solid var(--outline-variant); font-family: var(--font-code); font-size: 12px; color: var(--primary-neon); display: flex; justify-content: space-between; align-items: center; }
+        
+        .search-box { padding: 0.75rem 1rem; border-bottom: 1px solid var(--outline-variant); }
+        .search-input { width: 100%; background: #0c0e12; border: 1px solid var(--outline-variant); padding: 8px 12px; color: #fff; font-family: var(--font-code); font-size: 12px; outline: none; }
+        .search-input:focus { border-color: var(--primary-neon); box-shadow: 0 0 8px var(--primary-glow); }
+
+        .model-list { overflow-y: auto; flex: 1; padding: 0.5rem; display: flex; flex-direction: column; gap: 4px; }
+        .model-item { 
+            background: #0c0e12; border: 1px solid transparent; padding: 10px 12px; cursor: pointer;
+            display: flex; flex-direction: column; gap: 2px; transition: 0.2s;
+        }
+        .model-item:hover { border-color: var(--outline-variant); background: var(--surface-container); }
+        .model-item.active { border-color: var(--primary-neon); box-shadow: inset 0 0 10px var(--primary-glow); background: rgba(0, 218, 243, 0.05); }
+        .model-item-name { font-size: 13px; font-weight: 500; color: #fff; }
+        .model-item-cat { font-family: var(--font-code); font-size: 10px; color: var(--outline-variant); text-transform: uppercase; }
+
+        /* WORKSPACE */
+        .workspace { display: grid; grid-template-rows: 1fr auto; background: var(--bg-base); position: relative; }
+        .viewer-container { width: 100%; height: 100%; position: relative; background: radial-gradient(circle at center, #141820 0%, #0A0C10 100%); }
+        .hud-overlay { position: absolute; top: 1.5rem; left: 1.5rem; z-index: 10; pointer-events: none; }
+        .hud-title { font-family: var(--font-display); font-size: 24px; color: #fff; }
+        .hud-sub { font-family: var(--font-code); font-size: 11px; color: var(--primary-neon); margin-top: 4px; }
+
+        model-viewer { width: 100%; height: 100%; --poster-color: transparent; }
+
+        /* SPECS BAR */
+        .specs-bar { background: var(--surface-level); border-top: 1px solid var(--outline-variant); padding: 1.5rem 2rem; display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: center; }
+        .specs-desc { font-size: 13px; color: #b4b4be; line-height: 1.5; }
+        .specs-meta { display: flex; flex-direction: column; gap: 4px; font-family: var(--font-code); font-size: 12px; border-left: 1px solid var(--outline-variant); padding-left: 1.5rem; }
+        .specs-meta span { color: var(--primary-neon); }
+
+        @media (max-width: 900px) {
+            .lab-layout { grid-template-columns: 1fr; height: auto; }
+            .sidebar { height: 350px; }
+            .workspace { height: 500px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="brand">SYS<span>.</span>LAB</a>
+        <div class="nav-links">
+            <span style="font-family: var(--font-code); color: var(--primary-neon); font-size: 11px;">[ LIVE 3D INSPECT ]</span>
+            <a href="academics.html">[ ACADEMICS ]</a>
+            <a href="index.html">[ HOME ]</a>
+        </div>
+    </nav>
+
+    <div class="lab-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span>COMPONENT_REGISTRY</span>
+                <span id="totalCount">50+ Items</span>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search hardware part..." oninput="filterModels()">
+            </div>
+            <div class="model-list" id="modelList"></div>
+        </aside>
+
+        <main class="workspace">
+            <div class="viewer-container">
+                <div class="hud-overlay">
+                    <div class="hud-title" id="displayTitle">Microprocessor</div>
+                    <div class="hud-sub" id="displayCategory">CATEGORY: PROCESSORS</div>
+                </div>
+
+                <model-viewer 
+                    id="activeViewer"
+                    src="https://modelviewer.dev/shared-assets/models/DamagedHelmet.glb" 
+                    alt="Hardware 3D Model" 
+                    camera-controls
+                    auto-rotate
+                    rotation-per-second="15deg"
+                    auto-rotate-delay="0"
+                    interpolation-decay="200"
+                    shadow-intensity="1.5"
+                    exposure="1.2"
+                    environment-image="neutral">
+                </model-viewer>
+            </div>
+
+            <div class="specs-bar">
+                <div class="specs-desc" id="displayDesc">Loading description...</div>
+                <div class="specs-meta">
+                    <div>POLYNODE ID: <span id="displayId">HW-001</span></div>
+                    <div>RENDER STATUS: <span style="color: #00ff66;">ONLINE (GLTF/GLB)</span></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // PUBLICLY ACCESSIBLE GLB ASSETS ROTATED ACROSS CATEGORIES
+        const sampleAssets = {
+            metallic: "https://modelviewer.dev/shared-assets/models/DamagedHelmet.glb",
+            robot: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
+            box: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+            organic: "https://modelviewer.dev/shared-assets/models/Horse.glb",
+            item: "https://modelviewer.dev/shared-assets/models/WaterBottle.glb"
+        };
+
+        const hardwareModels = [
+            { id: "HW-001", name: "Microprocessor (CPU Core)", category: "Processors", desc: "The primary electronic chip executing instructions comprising a computer program.", src: sampleAssets.metallic },
+            { id: "HW-002", name: "Arithmetic Logic Unit (ALU IC)", category: "Processors", desc: "Digital circuit performing arithmetic and logical operations.", src: sampleAssets.robot },
+            { id: "HW-003", name: "8051 Microcontroller Chip", category: "Processors", desc: "An 8-bit microcontroller designed by Intel, widely used in embedded systems.", src: sampleAssets.box },
+            { id: "HW-004", name: "CPU L3 Cache Memory Module", category: "Processors", desc: "High-speed static RAM integrated directly onto the processor die.", src: sampleAssets.item },
+            { id: "HW-005", name: "Processor Heat Sink & Fan", category: "Processors", desc: "Active thermal management component designed to dissipate CPU heat.", src: sampleAssets.organic },
+
+            { id: "HW-006", name: "ATX Form Factor Motherboard", category: "Motherboards", desc: "Standard motherboard layout holding crucial system components together.", src: sampleAssets.metallic },
+            { id: "HW-007", name: "Northbridge Chipset", category: "Motherboards", desc: "Controls high-speed communication between CPU, RAM, and graphics controller.", src: sampleAssets.robot },
+            { id: "HW-008", name: "Southbridge Chipset (I/O)", category: "Motherboards", desc: "Manages slower peripheral buses like PCI, USB, and SATA.", src: sampleAssets.box },
+            { id: "HW-009", name: "BIOS ROM Chip", category: "Motherboards", desc: "Non-volatile firmware chip performing hardware initialization.", src: sampleAssets.item },
+            { id: "HW-010", name: "CMOS Battery (CR2032)", category: "Motherboards", desc: "Coin cell battery supplying power to save system BIOS configurations.", src: sampleAssets.organic },
+
+            { id: "HW-011", name: "DDR4 RAM Stick (DIMM)", category: "Memory & Storage", desc: "Volatile primary system memory module providing high-bandwidth data shuffling.", src: sampleAssets.metallic },
+            { id: "HW-012", name: "DDR5 High-Speed RAM Module", category: "Memory & Storage", desc: "Next-gen system memory featuring on-die error correction codes.", src: sampleAssets.robot },
+            { id: "HW-013", name: "NVMe M.2 Solid State Drive", category: "Memory & Storage", desc: "Ultra-fast flash storage connected directly via the PCIe bus protocol.", src: sampleAssets.box },
+            { id: "HW-014", name: "2.5-inch SATA SSD", category: "Memory & Storage", desc: "Solid-state drive inside an enclosure mimicking legacy hard disk form factors.", src: sampleAssets.item },
+
+            { id: "HW-015", name: "IC 7408 Quad AND Gate", category: "Logic Gates", desc: "Standard TTL logic integrated circuit containing four independent AND gates.", src: sampleAssets.metallic },
+            { id: "HW-016", name: "IC 7432 Quad OR Gate", category: "Logic Gates", desc: "Digital logic chip executing boolean addition across distinct channels.", src: sampleAssets.robot },
+            { id: "HW-017", name: "IC 7404 Hex Inverter (NOT)", category: "Logic Gates", desc: "Integrated circuit containing six independent logical negation inverter gates.", src: sampleAssets.box },
+            { id: "HW-018", name: "IC 7400 Quad NAND Gate", category: "Logic Gates", desc: "Universal logic gate IC capable of constructing any boolean expression.", src: sampleAssets.item },
+
+            { id: "HW-019", name: "RJ45 Ethernet Connector", category: "Networking", desc: "Modular connector used for terminating twisted-pair Ethernet cabling.", src: sampleAssets.metallic },
+            { id: "HW-020", name: "Network Interface Card (NIC)", category: "Networking", desc: "Expansion circuit board providing physical network connectivity.", src: sampleAssets.robot },
+            { id: "HW-021", name: "Enterprise Network Switch", category: "Networking", desc: "Hardware device connecting devices via packet switching.", src: sampleAssets.box },
+            { id: "HW-022", name: "Wireless Wi-Fi Router Node", category: "Networking", desc: "Routing device combining router and wireless access point features.", src: sampleAssets.item },
+
+            { id: "HW-023", name: "Switched-Mode Power Supply", category: "Power & Peripherals", desc: "Converts AC mains power to regulated DC low-voltage rails.", src: sampleAssets.metallic },
+            { id: "HW-024", name: "Mechanical Keyboard Switch", category: "Power & Peripherals", desc: "Individual spring-loaded mechanical switch mechanism beneath keycaps.", src: sampleAssets.robot },
+            { id: "HW-025", name: "Graphics Processing Unit (GPU)", category: "Power & Peripherals", desc: "Specialized electronic circuit designed to accelerate image creation.", src: sampleAssets.box },
+
+            // Additional padded registry items up to 50+
+            ...Array.from({length: 25}, (_, i) => ({
+                id: `HW-0${26 + i}`,
+                name: `Hardware Lab Module ${26 + i}`,
+                category: "General Hardware",
+                desc: `Standard laboratory hardware component module index number ${26 + i} utilized in practical computer engineering workshops.`,
+                src: i % 2 === 0 ? sampleAssets.metallic : sampleAssets.box
+            }))
+        ];
+
+        const modelListEl = document.getElementById('modelList');
+        document.getElementById('totalCount').innerText = `${hardwareModels.length} Items`;
+
+        function renderList(items) {
+            modelListEl.innerHTML = items.map((item, index) => `
+                <div class="model-item ${index === 0 ? 'active' : ''}" onclick="selectModel('${item.id}', this)">
+                    <div class="model-item-name">${item.name}</div>
+                    <div class="model-item-cat">${item.category} // ${item.id}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectModel(id, element) {
+            const model = hardwareModels.find(m => m.id === id);
+            if (!model) return;
+
+            document.getElementById('displayTitle').innerText = model.name;
+            document.getElementById('displayCategory').innerText = `CATEGORY: ${model.category.toUpperCase()}`;
+            document.getElementById('displayDesc').innerText = model.desc;
+            document.getElementById('displayId').innerText = model.id;
+            
+            document.getElementById('activeViewer').src = model.src;
+
+            document.querySelectorAll('.model-item').forEach(el => el.classList.remove('active'));
+            if(element) element.classList.add('active');
+        }
+
+        function filterModels() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = hardwareModels.filter(m => 
+                m.name.toLowerCase().includes(query) || 
+                m.category.toLowerCase().includes(query) ||
+                m.id.toLowerCase().includes(query)
+            );
+            renderList(filtered);
+        }
+
+        renderList(hardwareModels);
+        selectModel(hardwareModels[0].id, modelListEl.children[0]);
+    </script>
+</body>
+</html>
