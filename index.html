@@ -5,62 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polytech Hub | Neon Protocol</title>
     
-    <!-- Fonts: Space Grotesk, Geist (via standard sans-serif fallback if CDN fails), JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-    
-    <!-- Google Model Viewer -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
 
     <style>
-        /* NEON PROTOCOL: DESIGN SYSTEM VARIABLES */
         :root {
-            --surface: #111318;
-            --surface-container-lowest: #0c0e12;
-            --surface-container: #1e2024;
-            --on-surface: #e2e2e8;
-            --outline: #849396;
-            --outline-variant: #3b494c;
-            
-            --primary-neon: #00daf3; /* surface-tint / primary-fixed-dim */
-            --primary-glow: rgba(0, 218, 243, 0.2);
-            
-            --secondary-blue: #00affe;
-            --secondary-glow: rgba(0, 175, 254, 0.2);
-            
-            --tertiary-violet: #d9c8ff;
             --bg-base: #0A0C10;
             --surface-level: #141820;
-            --overlay-level: rgba(28, 34, 45, 0.7);
-
-            /* Typography */
+            --primary-neon: #00daf3;
+            --primary-glow: rgba(0, 218, 243, 0.2);
+            --on-surface: #e2e2e8;
+            --outline-variant: #3b494c;
             --font-display: 'Space Grotesk', sans-serif;
-            --font-body: 'Geist', system-ui, sans-serif;
             --font-code: 'JetBrains Mono', monospace;
         }
 
-        /* GLOBAL RESETS & BASE */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-base);
             color: var(--on-surface);
-            font-family: var(--font-body);
+            font-family: 'Geist', system-ui, sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
             background-image: 
                 linear-gradient(var(--outline-variant) 1px, transparent 1px),
                 linear-gradient(90deg, var(--outline-variant) 1px, transparent 1px);
-            background-size: 40px 40px; /* Rigid Grid Background */
+            background-size: 40px 40px;
             background-position: center center;
         }
 
-        /* TYPOGRAPHY */
         h1, h2, h3 {
             font-family: var(--font-display);
             font-weight: 700;
@@ -69,7 +44,6 @@
         }
 
         h1 { font-size: 48px; color: #ffffff; }
-        h2 { font-size: 32px; }
         
         .label-caps {
             font-family: var(--font-code);
@@ -80,7 +54,6 @@
             color: var(--primary-neon);
         }
 
-        /* LAYOUT & CONTAINERS */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -92,7 +65,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1.5rem 2rem;
-            background: var(--overlay-level);
+            background: rgba(28, 34, 45, 0.7);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--outline-variant);
             position: sticky;
@@ -133,7 +106,6 @@
             text-shadow: 0 0 8px var(--primary-glow);
         }
 
-        /* SHAPES & COMPONENTS */
         .btn-primary {
             background-color: var(--primary-neon);
             color: #000000;
@@ -144,7 +116,6 @@
             font-weight: 600;
             text-transform: uppercase;
             cursor: pointer;
-            /* 45-degree chamfered corners */
             clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
             transition: box-shadow 0.2s;
         }
@@ -154,38 +125,17 @@
             background-color: #33e3f5;
         }
 
-        .btn-ghost {
-            background: transparent;
-            color: var(--primary-neon);
-            border: 1px solid var(--primary-neon);
-            padding: 12px 24px;
-            font-family: var(--font-code);
-            font-size: 13px;
-            text-transform: uppercase;
-            cursor: pointer;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-            transition: background 0.2s, box-shadow 0.2s;
-        }
-
-        .btn-ghost:hover {
-            background: var(--primary-glow);
-            box-shadow: inset 0 0 10px var(--primary-glow);
-        }
-
         /* HERO SECTION */
         .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            min-height: 80vh;
-        }
-
-        .hero-content {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            min-height: 60vh;
             gap: 1.5rem;
-            align-items: flex-start;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .status-chip {
@@ -195,39 +145,6 @@
             color: var(--primary-neon);
             font-family: var(--font-code);
             font-size: 12px;
-        }
-
-        /* 3D VIEWER CONTAINER (HUD STYLE) */
-        .model-container {
-            width: 100%;
-            height: 500px;
-            background: var(--surface-level);
-            border: 1px solid var(--outline-variant);
-            position: relative;
-        }
-
-        .model-container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            box-shadow: inset 0 0 30px rgba(0, 218, 243, 0.05);
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .hud-overlay {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            z-index: 20;
-            pointer-events: none;
-        }
-
-        /* OPTIMIZED MODEL VIEWER */
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            --poster-color: transparent;
         }
 
         /* CARDS */
@@ -258,12 +175,6 @@
             padding-bottom: 0.5rem;
             margin-bottom: 0.5rem;
         }
-
-        @media (max-width: 768px) {
-            .hero {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
@@ -272,67 +183,35 @@
         <a href="index.html" class="brand">SYS<span>.</span>HUB</a>
         <div class="nav-links">
             <a href="academics.html">[ ACADEMICS_VAULT ]</a>
-            <a href="lab.html">[ HARDWARE_LAB_3D ]</a>
         </div>
     </nav>
 
     <main class="container">
         <section class="hero">
-            <div class="hero-content">
-                <div class="status-chip">SYSTEM ONLINE // VER 2.0</div>
-                <h1>Next-Gen Engineering Curriculum Data</h1>
-                <p>Access high-fidelity 3D hardware models, complete semester notes, and structural analysis of previous year questions. Built for performance.</p>
-                
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn-primary" onclick="window.location.href='lab.html'">Initialize 3D Lab</button>
-                    <button class="btn-ghost" onclick="window.location.href='academics.html'">Access Notes</button>
-                </div>
-            </div>
-
-            <!-- 3D Viewer Hub with Smoothness Enhancements -->
-            <div class="model-container">
-                <div class="hud-overlay">
-                    <div class="label-caps">LIVE INSPECT: M-BOARD_ATX</div>
-                    <div class="label-caps" style="color: var(--outline); margin-top: 4px;">DRAG TO ROTATE // SCROLL TO ZOOM</div>
-                </div>
-                
-                <!-- 
-                  SMOOTHNESS UPGRADES:
-                  1. interpolation-decay="200" -> Smooth, fluid camera transitions (no snapping).
-                  2. auto-rotate-delay="0" -> Starts rotating instantly.
-                  3. environment-image="neutral" -> Provides realistic metal/glass reflections.
-                  4. camera-controls -> Enables mouse/touch interaction.
-                -->
-                <model-viewer 
-                    src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                    alt="3D Engineering Model" 
-                    camera-controls
-                    auto-rotate
-                    rotation-per-second="20deg"
-                    auto-rotate-delay="0"
-                    interpolation-decay="200"
-                    shadow-intensity="1.5"
-                    exposure="1.2"
-                    environment-image="neutral">
-                </model-viewer>
+            <div class="status-chip">SYSTEM ONLINE // VER 2.1</div>
+            <h1>Computer Engineering Polytechnic Hub</h1>
+            <p>Access complete semester-wise notes broken down chapter-by-chapter, paired with a 10-year previous year question (PYQ) archive. Clean, fast, and static.</p>
+            
+            <div style="margin-top: 1rem;">
+                <button class="btn-primary" onclick="window.location.href='academics.html'">Enter Academic Vault</button>
             </div>
         </section>
 
         <section class="features-grid">
             <div class="card">
                 <div class="card-header label-caps">Module 01</div>
-                <h3>Academic Vault</h3>
-                <p>Structured semester notes (1-6) and PYQs stored locally for instant retrieval.</p>
+                <h3>Semesters 1 to 6</h3>
+                <p>Complete curriculum coverage for all years of the diploma computer engineering program.</p>
             </div>
             <div class="card">
                 <div class="card-header label-caps">Module 02</div>
-                <h3>Procedural Rendering</h3>
-                <p>Client-side rendering of 50+ hardware components. Zero backend latency.</p>
+                <h3>Chapter-Wise Units</h3>
+                <p>Notes structured neatly from Unit 1 through Unit 5 for precise topic studying.</p>
             </div>
             <div class="card">
                 <div class="card-header label-caps">Module 03</div>
-                <h3>Glassmorphic HUD</h3>
-                <p>High-contrast, data-dense interface designed for engineers and developers.</p>
+                <h3>10-Year PYQ Archive</h3>
+                <p>Extensive historical examination papers to help prepare effectively for board exams.</p>
             </div>
         </section>
     </main>
