@@ -1,0 +1,19 @@
+[
+  {
+    "id": "programme-computer-engineering",
+    "type": "programme",
+    "title": "Diploma in Computer Engineering",
+    "status": "verified",
+    "parentId": null,
+    "semesterId": null,
+    "sourceIds": ["source-hsbte-computer-engg", "source-hsbte-home"],
+    "aliases": ["Computer Engineering", "Computer Engg.", "Computer Engineering Polytechnic"],
+    "relatedIds": [],
+    "metadata": {
+      "board": "Haryana State Board of Technical Education",
+      "state": "Haryana",
+      "level": "Diploma / Polytechnic",
+      "verificationNote": "Programme identity is supported by the official HSBTE Computer Engineering curriculum page. Scheme applicability is modeled separately."
+    }
+  }
+]
