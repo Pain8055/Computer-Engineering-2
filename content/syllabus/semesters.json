@@ -1,0 +1,74 @@
+[
+  {
+    "id": "semester-1",
+    "type": "semester",
+    "title": "Semester 1",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-2022-23",
+    "semesterId": "semester-1",
+    "sourceIds": ["source-hsbte-computer-engg", "source-hsbte-home"],
+    "aliases": ["Sem 1", "First Semester"],
+    "relatedIds": [],
+    "metadata": {"semesterNumber": 1, "verificationNote": "Semester exists on the official Computer Engineering curriculum page; subject mapping is not yet marked verified because scheme applicability is still being resolved."}
+  },
+  {
+    "id": "semester-2",
+    "type": "semester",
+    "title": "Semester 2",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-2022-second-year",
+    "semesterId": "semester-2",
+    "sourceIds": ["source-hsbte-computer-engg", "source-hsbte-2nd-year-2022"],
+    "aliases": ["Sem 2", "Second Semester"],
+    "relatedIds": [],
+    "metadata": {"semesterNumber": 2, "verificationNote": "Modeled under the verified second-year scheme record only as a structural placeholder; exact semester-to-scheme applicability still requires document-level confirmation."}
+  },
+  {
+    "id": "semester-3",
+    "type": "semester",
+    "title": "Semester 3",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-2022-second-year",
+    "semesterId": "semester-3",
+    "sourceIds": ["source-hsbte-computer-engg", "source-hsbte-2nd-year-2022"],
+    "aliases": ["Sem 3", "Third Semester"],
+    "relatedIds": [],
+    "metadata": {"semesterNumber": 3, "verificationNote": "Modeled as second-year structure only; no subject claims are made until the source document is directly verified."}
+  },
+  {
+    "id": "semester-4",
+    "type": "semester",
+    "title": "Semester 4",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-2022-second-year",
+    "semesterId": "semester-4",
+    "sourceIds": ["source-hsbte-computer-engg", "source-hsbte-2nd-year-2022"],
+    "aliases": ["Sem 4", "Fourth Semester"],
+    "relatedIds": [],
+    "metadata": {"semesterNumber": 4, "verificationNote": "Modeled as second-year structure only; no subject claims are made until the source document is directly verified."}
+  },
+  {
+    "id": "semester-5",
+    "type": "semester",
+    "title": "Semester 5",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-2022-23",
+    "semesterId": "semester-5",
+    "sourceIds": ["source-hsbte-computer-engg", "source-hsbte-home"],
+    "aliases": ["Sem 5", "Fifth Semester"],
+    "relatedIds": [],
+    "metadata": {"semesterNumber": 5, "verificationNote": "Semester exists on the official Computer Engineering curriculum page; current scheme applicability and subject mapping remain pending document-level verification."}
+  },
+  {
+    "id": "semester-6",
+    "type": "semester",
+    "title": "Semester 6",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-2022-23",
+    "semesterId": "semester-6",
+    "sourceIds": ["source-hsbte-computer-engg", "source-hsbte-home"],
+    "aliases": ["Sem 6", "Sixth Semester"],
+    "relatedIds": [],
+    "metadata": {"semesterNumber": 6, "verificationNote": "Semester exists on the official Computer Engineering curriculum page; current scheme applicability and subject mapping remain pending document-level verification."}
+  }
+]
