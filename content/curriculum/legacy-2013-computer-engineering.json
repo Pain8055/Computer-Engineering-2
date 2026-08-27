@@ -1,0 +1,16 @@
+{
+  "id": "scheme-hsbte-computer-2013-legacy",
+  "type": "scheme",
+  "title": "HSBTE Computer Engineering Curriculum — 2013 (Historical Reference)",
+  "status": "verified-external",
+  "parentId": "programme-computer-engineering",
+  "semesterId": null,
+  "sourceIds": ["source-hsbte-computer-engg-contents-2013"],
+  "aliases": ["2013 Computer Engineering syllabus", "legacy Computer Engineering curriculum"],
+  "relatedIds": [],
+  "metadata": {
+    "applicability": "historical-reference-only",
+    "warning": "Do not use this record to populate the current ByteCore syllabus.",
+    "semestersDocumented": 6
+  }
+}
