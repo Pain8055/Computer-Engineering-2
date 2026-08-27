@@ -1,0 +1,20 @@
+{
+  "programmeId": "programme-computer-engineering",
+  "schemeId": "scheme-hsbte-2022-23",
+  "sourceOfTruth": "https://hsbte.org.in/computer-engg",
+  "verifiedNavigation": {
+    "semester1": "https://hsbte.org.in/computer-engg#detailed-content-sem-1",
+    "semester2": "https://hsbte.org.in/computer-engg#detailed-content-sem-2",
+    "semester3": "https://hsbte.org.in/computer-engg#detailed-content-sem-3",
+    "semester4": "https://hsbte.org.in/computer-engg#detailed-content-sem-4",
+    "semester5": "https://hsbte.org.in/computer-engg#detailed-content-sem-5",
+    "semester6": "https://hsbte.org.in/computer-engg#detailed-content-sem-6"
+  },
+  "status": "pending-verification",
+  "verificationNotes": [
+    "The current HSBTE Computer Engineering page exposes detailed-content sections for semesters 1 through 6.",
+    "The page navigation also distinguishes Curriculum w.e.f. 2022-23 from older syllabus pages.",
+    "Subject names, subject codes, units, and topics must be extracted from the applicable current detailed documents before being marked verified.",
+    "Historical HSBTE Computer Engineering documents are excluded from the current content graph unless explicitly identified as historical reference material."
+  ]
+}
