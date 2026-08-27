@@ -1,0 +1,23 @@
+{
+  "programmeId": "programme-computer-engineering",
+  "schemeId": "scheme-hsbte-2022-23",
+  "status": "pending-verification",
+  "sourceIds": [
+    "source-hsbte-computer-engg",
+    "source-hsbte-curriculum-2022-23",
+    "source-hsbte-2nd-year-2022"
+  ],
+  "semesterIds": [
+    "sem-1",
+    "sem-2",
+    "sem-3",
+    "sem-4",
+    "sem-5",
+    "sem-6"
+  ],
+  "notes": [
+    "HSBTE currently exposes detailed content links for semesters 1 through 6 on the Computer Engineering page.",
+    "Subject-level records must be verified from the applicable current documents before being marked verified.",
+    "Historical HSBTE Computer Engineering curriculum documents must not be merged into the current scheme."
+  ]
+}
