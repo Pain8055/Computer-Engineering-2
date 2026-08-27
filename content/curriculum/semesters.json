@@ -1,0 +1,62 @@
+[
+  {
+    "id": "semester-1",
+    "type": "semester",
+    "title": "Semester 1",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-computer-engineering-2022",
+    "semesterId": "semester-1",
+    "sourceIds": ["source-hsbte-computer-engg"],
+    "notes": "Semester exists as a navigation/content section on the official HSBTE Computer Engineering page. Subject-level applicability is pending exact scheme verification."
+  },
+  {
+    "id": "semester-2",
+    "type": "semester",
+    "title": "Semester 2",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-computer-engineering-2022",
+    "semesterId": "semester-2",
+    "sourceIds": ["source-hsbte-computer-engg"],
+    "notes": "Semester exists as a navigation/content section on the official HSBTE Computer Engineering page. Subject-level applicability is pending exact scheme verification."
+  },
+  {
+    "id": "semester-3",
+    "type": "semester",
+    "title": "Semester 3",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-computer-engineering-2022",
+    "semesterId": "semester-3",
+    "sourceIds": ["source-hsbte-computer-engg"],
+    "notes": "Semester exists as a navigation/content section on the official HSBTE Computer Engineering page. Subject-level applicability is pending exact scheme verification."
+  },
+  {
+    "id": "semester-4",
+    "type": "semester",
+    "title": "Semester 4",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-computer-engineering-2022",
+    "semesterId": "semester-4",
+    "sourceIds": ["source-hsbte-computer-engg"],
+    "notes": "Semester exists as a navigation/content section on the official HSBTE Computer Engineering page. Subject-level applicability is pending exact scheme verification."
+  },
+  {
+    "id": "semester-5",
+    "type": "semester",
+    "title": "Semester 5",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-computer-engineering-2022",
+    "semesterId": "semester-5",
+    "sourceIds": ["source-hsbte-computer-engg"],
+    "notes": "Semester exists as a navigation/content section on the official HSBTE Computer Engineering page. Subject-level applicability is pending exact scheme verification."
+  },
+  {
+    "id": "semester-6",
+    "type": "semester",
+    "title": "Semester 6",
+    "status": "pending-verification",
+    "parentId": "scheme-hsbte-computer-engineering-2022",
+    "semesterId": "semester-6",
+    "sourceIds": ["source-hsbte-computer-engg"],
+    "notes": "Semester exists as a navigation/content section on the official HSBTE Computer Engineering page. Subject-level applicability is pending exact scheme verification."
+  }
+]
