@@ -3,7 +3,7 @@
   "semesterId": "semester-1",
   "status": "source-derived-partial",
   "verification": "user-provided-pending-hsbte-verification",
-  "description": "Topic index extracted only from the supplied Semester 1 materials. Unread or unsupported sections remain unpopulated.",
+  "description": "Topic index extracted only from the supplied Semester 1 materials. Unsupported sections remain unpopulated.",
   "subjects": [
     {
       "id": "ce-sem1-applied-mathematics-1",
@@ -43,7 +43,7 @@
       "units": [
         {"id":"ce-sem1-computer-fundamentals-unit-1","title":"Fundamentals of Computer","topics":["Definition and fundamentals of computer","Characteristics of computer","Generations of computer","First generation","Second generation","Third generation","Computer memory","Memory units","Cache memory","Classification of computers","CPU and registers","Input and output devices"]},
         {"id":"ce-sem1-computer-fundamentals-unit-2","title":"DOS and Windows Operating System","topics":["Operating system definition","Goals of operating system","Memory management","Processor management","Device management","Need of operating system","Usage of operating system","Commonly used operating systems","Windows Start Menu","Starting a programme","Shutdown, standby, restart and log off","Files and folders"]},
-        {"id":"ce-sem1-computer-fundamentals-unit-3","title":"Computer Applications and Related Material","topics":[]},
+        {"id":"ce-sem1-computer-fundamentals-unit-3","title":"Unresolved section","topics":[],"status":"pending-source-verification"},
         {"id":"ce-sem1-computer-fundamentals-unit-4","title":"Program Development Process","topics":["Problem definition","Program design","Coding","Debugging","Testing","Documentation","Maintenance","Algorithms","Flowcharts","Flowchart symbols"]}
       ]
     }
