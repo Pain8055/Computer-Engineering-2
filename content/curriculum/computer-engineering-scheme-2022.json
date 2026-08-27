@@ -1,0 +1,20 @@
+{
+  "id": "scheme-hsbte-computer-engineering-2022",
+  "type": "scheme",
+  "title": "HSBTE Computer Engineering — Scheme 2022",
+  "status": "pending-verification",
+  "parentId": "programme-computer-engineering",
+  "semesterIds": [
+    "semester-1",
+    "semester-2",
+    "semester-3",
+    "semester-4",
+    "semester-5",
+    "semester-6"
+  ],
+  "sourceIds": [
+    "source-hsbte-2nd-year-2022",
+    "source-hsbte-computer-engg"
+  ],
+  "notes": "The official HSBTE sources establish that Computer Engineering is listed in Scheme 2022 second-year curriculum and that the Computer Engineering curriculum page exposes Semesters 1–6. Subject-level records remain pending until their exact current-scheme applicability is verified from the authoritative curriculum documents."
+}
