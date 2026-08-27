@@ -1,0 +1,47 @@
+[
+  {
+    "id": "source-hsbte-home",
+    "title": "HSBTE official website",
+    "url": "https://hsbte.org.in/",
+    "publisher": "Haryana State Board of Technical Education",
+    "type": "official",
+    "accessed": "2026-08-27",
+    "notes": "Official syllabus navigation lists Curriculum w.e.f. 2022-23, older/revised curriculum pages, and current examination notices."
+  },
+  {
+    "id": "source-hsbte-computer-engg",
+    "title": "HSBTE Computer Engineering curriculum page",
+    "url": "https://hsbte.org.in/computer-engg",
+    "publisher": "Haryana State Board of Technical Education",
+    "type": "official",
+    "accessed": "2026-08-27",
+    "notes": "Official Computer Engineering page exposes detailed content links for Semesters 1 through 6."
+  },
+  {
+    "id": "source-hsbte-curriculum-2022-23",
+    "title": "HSBTE Curriculum w.e.f. 2022-23",
+    "url": "https://hsbte.org.in/",
+    "publisher": "Haryana State Board of Technical Education",
+    "type": "official",
+    "accessed": "2026-08-27",
+    "notes": "The HSBTE homepage currently exposes this as a syllabus navigation item; the linked document is hosted externally. Exact Computer Engineering applicability must be retained from the linked source before marking records verified."
+  },
+  {
+    "id": "source-hsbte-2nd-year-2022",
+    "title": "HSBTE 2nd Year Curriculum (Scheme 2022)",
+    "url": "https://hsbte.org.in/2nd-year-curriculum-scheme-2022",
+    "publisher": "Haryana State Board of Technical Education",
+    "type": "official",
+    "accessed": "2026-08-27",
+    "notes": "Official HSBTE page explicitly lists Computer Engineering among the Scheme 2022 second-year curricula."
+  },
+  {
+    "id": "source-hsbte-old-syllabus",
+    "title": "HSBTE Old Syllabus archive",
+    "url": "https://hsbte.org.in/old_syllabus",
+    "publisher": "Haryana State Board of Technical Education",
+    "type": "official-historical",
+    "accessed": "2026-08-27",
+    "notes": "Historical material only; never use this source alone to label current curriculum records as current."
+  }
+]

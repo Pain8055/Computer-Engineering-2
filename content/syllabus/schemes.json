@@ -1,0 +1,49 @@
+[
+  {
+    "id": "scheme-hsbte-2022-23",
+    "type": "scheme",
+    "title": "HSBTE Curriculum w.e.f. 2022-23",
+    "status": "pending-verification",
+    "parentId": "programme-computer-engineering",
+    "semesterId": null,
+    "sourceIds": ["source-hsbte-home"],
+    "aliases": ["2022-23 Curriculum", "Scheme 2022-23"],
+    "relatedIds": [],
+    "metadata": {
+      "applicability": "listed by HSBTE as a curriculum navigation item; exact Computer Engineering scheme document must be retained before marking semester records verified",
+      "scope": "programme curriculum",
+      "verificationNote": "The official HSBTE homepage currently exposes Curriculum w.e.f. 2022-23. The linked external document needs direct document-level verification for Computer Engineering applicability."
+    }
+  },
+  {
+    "id": "scheme-hsbte-2022-second-year",
+    "type": "scheme",
+    "title": "HSBTE 2nd Year Curriculum (Scheme 2022)",
+    "status": "verified",
+    "parentId": "programme-computer-engineering",
+    "semesterId": null,
+    "sourceIds": ["source-hsbte-2nd-year-2022"],
+    "aliases": ["Scheme 2022", "2022 Second Year Scheme"],
+    "relatedIds": [],
+    "metadata": {
+      "applicability": "second year",
+      "computerEngineeringListed": true,
+      "verificationNote": "The official HSBTE Scheme 2022 page explicitly lists Computer Engineering. This record does not infer first-year or third-year applicability."
+    }
+  },
+  {
+    "id": "scheme-hsbte-2018-batch",
+    "type": "scheme",
+    "title": "HSBTE Study Scheme and Curriculum Contents for 2018 Batch Onwards",
+    "status": "pending-verification",
+    "parentId": "programme-computer-engineering",
+    "semesterId": null,
+    "sourceIds": ["source-hsbte-home"],
+    "aliases": ["2018 Batch Onwards"],
+    "relatedIds": [],
+    "metadata": {
+      "applicability": "historical/legacy scheme candidate",
+      "verificationNote": "Retained as provenance because HSBTE still exposes a 2018-batch curriculum page. It must not be treated as the current scheme without explicit applicability evidence."
+    }
+  }
+]
