@@ -3,7 +3,7 @@
   "programmeId": "programme-computer-engineering",
   "status": "user-provided-pending-hsbte-verification",
   "sourceType": "user-provided",
-  "verificationNote": "These four Semester 1 theory subjects are based on the materials supplied by the project owner. They are not marked as HSBTE-official until the applicable HSBTE subject documents are independently verified.",
+  "verificationNote": "These four Semester 1 theory subjects are based on materials supplied by the project owner. They are not marked as HSBTE-official until the applicable HSBTE subject documents are independently verified.",
   "subjects": [
     {
       "id": "ce-sem1-applied-mathematics-1",
@@ -26,7 +26,7 @@
       "status": "user-provided-pending-hsbte-verification",
       "sourceFile": "1st-semester-English-E-Contents-1.pdf",
       "units": [],
-      "verificationNote": "The supplied document explicitly identifies the subject and code; its complete unit structure will be extracted in the next content pass."
+      "verificationNote": "The supplied document explicitly identifies the subject and code. Its complete unit structure is not yet populated because it has not been fully extracted into the repository content model."
     },
     {
       "id": "ce-sem1-applied-physics",
@@ -42,7 +42,7 @@
         {"id": "ce-sem1-applied-physics-unit-5", "title": "Properties of Matter"},
         {"id": "ce-sem1-applied-physics-unit-6", "title": "Heat and Temperature"}
       ],
-      "verificationNote": "The supplied material includes additional detailed/practical content; this record currently represents the theory unit structure only, as requested by the project owner."
+      "verificationNote": "The supplied material includes additional detailed/practical content; this record represents the theory unit structure only, as requested by the project owner."
     },
     {
       "id": "ce-sem1-computer-fundamentals",
@@ -51,7 +51,7 @@
       "status": "user-provided-pending-hsbte-verification",
       "sourceFile": "Computer Fundamentals.pdf",
       "units": [],
-      "verificationNote": "The supplied material clearly contains Computer Fundamentals content; the complete unit structure will be extracted in the next content pass."
+      "verificationNote": "The supplied material clearly contains Computer Fundamentals content, but its complete unit structure has not yet been fully extracted into the repository content model."
     }
   ]
 }
