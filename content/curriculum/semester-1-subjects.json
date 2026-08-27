@@ -1,0 +1,57 @@
+{
+  "semesterId": "semester-1",
+  "programmeId": "programme-computer-engineering",
+  "status": "user-provided-pending-hsbte-verification",
+  "sourceType": "user-provided",
+  "verificationNote": "These four Semester 1 theory subjects are based on the materials supplied by the project owner. They are not marked as HSBTE-official until the applicable HSBTE subject documents are independently verified.",
+  "subjects": [
+    {
+      "id": "ce-sem1-applied-mathematics-1",
+      "title": "Applied Mathematics-I",
+      "subjectCode": "220021",
+      "status": "user-provided-pending-hsbte-verification",
+      "sourceFile": "Applied Mathematics-I220021.pdf",
+      "units": [
+        {"id": "ce-sem1-applied-mathematics-1-unit-1", "title": "Algebra"},
+        {"id": "ce-sem1-applied-mathematics-1-unit-2", "title": "Binomial Theorem, Determinants and Matrices"},
+        {"id": "ce-sem1-applied-mathematics-1-unit-3", "title": "Trigonometry"},
+        {"id": "ce-sem1-applied-mathematics-1-unit-4", "title": "Co-ordinate Geometry"},
+        {"id": "ce-sem1-applied-mathematics-1-unit-5", "title": "Geometry of Circle and Software"}
+      ]
+    },
+    {
+      "id": "ce-sem1-english-communication-skill-1",
+      "title": "English and Communication Skill-I",
+      "subjectCode": "220011/210011",
+      "status": "user-provided-pending-hsbte-verification",
+      "sourceFile": "1st-semester-English-E-Contents-1.pdf",
+      "units": [],
+      "verificationNote": "The supplied document explicitly identifies the subject and code; its complete unit structure will be extracted in the next content pass."
+    },
+    {
+      "id": "ce-sem1-applied-physics",
+      "title": "Applied Physics",
+      "subjectCode": null,
+      "status": "user-provided-pending-hsbte-verification",
+      "sourceFile": "PHYSICS-Sem-1st-1.docx",
+      "units": [
+        {"id": "ce-sem1-applied-physics-unit-1", "title": "Units and Dimensions"},
+        {"id": "ce-sem1-applied-physics-unit-2", "title": "Force and Motion"},
+        {"id": "ce-sem1-applied-physics-unit-3", "title": "Work, Power and Energy"},
+        {"id": "ce-sem1-applied-physics-unit-4", "title": "Rotational Motion"},
+        {"id": "ce-sem1-applied-physics-unit-5", "title": "Properties of Matter"},
+        {"id": "ce-sem1-applied-physics-unit-6", "title": "Heat and Temperature"}
+      ],
+      "verificationNote": "The supplied material includes additional detailed/practical content; this record currently represents the theory unit structure only, as requested by the project owner."
+    },
+    {
+      "id": "ce-sem1-computer-fundamentals",
+      "title": "Computer Fundamentals",
+      "subjectCode": null,
+      "status": "user-provided-pending-hsbte-verification",
+      "sourceFile": "Computer Fundamentals.pdf",
+      "units": [],
+      "verificationNote": "The supplied material clearly contains Computer Fundamentals content; the complete unit structure will be extracted in the next content pass."
+    }
+  ]
+}
