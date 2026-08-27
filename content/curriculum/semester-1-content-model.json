@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "semesterId": "semester-1",
+  "description": "Structured Semester 1 theory content model for ByteCore. Records remain user-provided pending independent HSBTE verification.",
+  "subjects": [
+    {
+      "id": "ce-sem1-applied-mathematics-1",
+      "units": [
+        {"id": "ce-sem1-applied-mathematics-1-unit-1", "title": "Algebra", "topics": []},
+        {"id": "ce-sem1-applied-mathematics-1-unit-2", "title": "Binomial Theorem, Determinants and Matrices", "topics": []},
+        {"id": "ce-sem1-applied-mathematics-1-unit-3", "title": "Trigonometry", "topics": []},
+        {"id": "ce-sem1-applied-mathematics-1-unit-4", "title": "Co-ordinate Geometry", "topics": []},
+        {"id": "ce-sem1-applied-mathematics-1-unit-5", "title": "Geometry of Circle and Software", "topics": []}
+      ]
+    },
+    {
+      "id": "ce-sem1-applied-physics",
+      "units": [
+        {"id": "ce-sem1-applied-physics-unit-1", "title": "Units and Dimensions", "topics": []},
+        {"id": "ce-sem1-applied-physics-unit-2", "title": "Force and Motion", "topics": []},
+        {"id": "ce-sem1-applied-physics-unit-3", "title": "Work, Power and Energy", "topics": []},
+        {"id": "ce-sem1-applied-physics-unit-4", "title": "Rotational Motion", "topics": []},
+        {"id": "ce-sem1-applied-physics-unit-5", "title": "Properties of Matter", "topics": []},
+        {"id": "ce-sem1-applied-physics-unit-6", "title": "Heat and Temperature", "topics": []}
+      ]
+    },
+    {
+      "id": "ce-sem1-english-communication-skill-1",
+      "units": []
+    },
+    {
+      "id": "ce-sem1-computer-fundamentals",
+      "units": []
+    }
+  ]
+}
