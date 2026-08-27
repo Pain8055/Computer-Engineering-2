@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "semesterId": "semester-1",
+  "status": "source-derived-partial",
+  "verification": "user-provided-pending-hsbte-verification",
+  "description": "Topic index extracted only from the supplied Semester 1 materials. Unread or unsupported sections remain unpopulated.",
+  "subjects": [
+    {
+      "id": "ce-sem1-applied-mathematics-1",
+      "sourceFile": "Applied Mathematics-I220021.pdf",
+      "units": [
+        {"id":"ce-sem1-applied-mathematics-1-unit-1","title":"Algebra","topics":["Complex Numbers","Polar and Cartesian Form and their inter conversion","Conjugate of a complex number","Modulus and amplitude","Operations on complex numbers","Logarithms and its basic properties"]},
+        {"id":"ce-sem1-applied-mathematics-1-unit-2","title":"Binomial Theorem, Determinants and Matrices","topics":["nPr and nCr","Binomial theorem for positive integral index","Binomial theorem for any index","First binomial approximation","Determinants up to 2nd order","Cramer's rule for equations up to 2 unknowns","Definition and types of matrices","Matrix addition, subtraction and multiplication up to 2nd order"]},
+        {"id":"ce-sem1-applied-mathematics-1-unit-3","title":"Trigonometry","topics":["Concept and measurement of angle","Degrees, grades and radians and conversions","T-ratios of allied angles","Sum and difference formulae","Product formulae","Applications to angle of elevation, height and distance"]},
+        {"id":"ce-sem1-applied-mathematics-1-unit-4","title":"Co-ordinate Geometry","topics":["Cartesian and polar coordinates","Distance between two points","Mid-point","Centroid of vertices of a triangle","Slope of a line","Standard forms of straight-line equations","Intersection of two straight lines","Concurrency of lines","Angle between straight lines","Parallel and perpendicular lines","Perpendicular distance formula","Conversion of general form to other forms"]},
+        {"id":"ce-sem1-applied-mathematics-1-unit-5","title":"Geometry of Circle and Software","topics":["General equation of a circle and its characteristics","Equation of a circle from centre and radius","Equation of a circle from three points"]}
+      ]
+    },
+    {
+      "id": "ce-sem1-applied-physics",
+      "sourceFile": "PHYSICS-Sem-1st-1.docx",
+      "units": [
+        {"id":"ce-sem1-applied-physics-unit-1","title":"Units and Dimensions","topics":["Definition of Physics","Physical quantities: fundamental and derived","Fundamental and derived units","CGS, FPS, MKS and SI systems","Dimensions","Dimensional formulae and SI units","Principle of homogeneity of dimensions","Dimensional equations","Applications of dimensional equations","Conversion of system of unit"]},
+        {"id":"ce-sem1-applied-physics-unit-2","title":"Force and Motion","topics":["Scalar and vector quantities","Addition of vectors","Triangle and parallelogram law","Scalar and vector product","Distance, displacement, speed, velocity and acceleration","Force and units","Resolution of force","Newton's laws of motion","Linear momentum and conservation of momentum","Impulse","Circular motion","Angular displacement, velocity and acceleration","Frequency and time period","Relation between linear and angular velocity","Centripetal and centrifugal forces","Banking of roads"]},
+        {"id":"ce-sem1-applied-physics-unit-3","title":"Work, Power and Energy","topics":["Work: definition, symbol, formula and SI units","Energy and SI units","Transformation of energy","Kinetic energy","Potential energy","Conservation of mechanical energy for freely falling bodies","Power","Numerical problems based on power"]},
+        {"id":"ce-sem1-applied-physics-unit-4","title":"Rotational Motion","topics":["Rotational motion","Torque","Angular momentum","Conservation of angular momentum","Moment of inertia","Radius of gyration"]},
+        {"id":"ce-sem1-applied-physics-unit-5","title":"Properties of Matter","topics":["Elasticity","Deforming force and restoring force","Elastic and plastic body","Stress and strain and their types","Hooke's law","Young's, bulk and shear modulus","Pressure and Pascal's law","Surface tension","Effect of temperature on surface tension","Viscosity","Effect of temperature on viscosity","Fluid motion","Streamline and turbulent flow"]},
+        {"id":"ce-sem1-applied-physics-unit-6","title":"Heat and Temperature","topics":["Heat and temperature on the basis of kinetic theory","Difference between heat and temperature","Principles of temperature measurement","Conduction, convection and radiation","Properties of heat radiation","Temperature scales and their relationship"]}
+      ]
+    },
+    {
+      "id": "ce-sem1-english-communication-skill-1",
+      "sourceFile": "1st-semester-English-E-Contents-1.pdf",
+      "units": [
+        {"id":"ce-sem1-english-unit-1","title":"Reading","topics":["Reading","Skimming","Scanning"]},
+        {"id":"ce-sem1-english-unit-2","title":"Communication Skills","topics":["Communication process","Sender","Message","Recipient or receiver","Decoding","Feedback","Verbal communication","Non-verbal communication","Written communication","Visual communication","Barriers to communication","Speaking skill","Listening skill"]},
+        {"id":"ce-sem1-english-unit-3","title":"Grammar and Usage","topics":["Noun","Kinds of nouns","Pronoun","Kinds of pronouns"]}
+      ]
+    },
+    {
+      "id": "ce-sem1-computer-fundamentals",
+      "sourceFile": "Computer Fundamentals.pdf",
+      "units": [
+        {"id":"ce-sem1-computer-fundamentals-unit-1","title":"Fundamentals of Computer","topics":["Definition and fundamentals of computer","Characteristics of computer","Generations of computer","First generation","Second generation","Third generation","Computer memory","Memory units","Cache memory","Classification of computers","CPU and registers","Input and output devices"]},
+        {"id":"ce-sem1-computer-fundamentals-unit-2","title":"DOS and Windows Operating System","topics":["Operating system definition","Goals of operating system","Memory management","Processor management","Device management","Need of operating system","Usage of operating system","Commonly used operating systems","Windows Start Menu","Starting a programme","Shutdown, standby, restart and log off","Files and folders"]},
+        {"id":"ce-sem1-computer-fundamentals-unit-3","title":"Computer Applications and Related Material","topics":[]},
+        {"id":"ce-sem1-computer-fundamentals-unit-4","title":"Program Development Process","topics":["Problem definition","Program design","Coding","Debugging","Testing","Documentation","Maintenance","Algorithms","Flowcharts","Flowchart symbols"]}
+      ]
+    }
+  ]
+}
