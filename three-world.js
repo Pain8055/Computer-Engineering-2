@@ -4,16 +4,7 @@ import { academicNode, cameraMotion, qualityProfile } from './three-world-core.j
 const LABELS = ['SYLLABUS', 'SUBJECTS', 'UNITS', 'TOPICS', 'NOTES', 'PRACTICE', 'PYQs', 'TUTOR', 'WORKSPACE'];
 
 function makeMaterial(color, roughness = 0.22, metalness = 0.55, opacity = 1) {
-  return new THREE.MeshPhysicalMaterial({
-    color,
-    roughness,
-    metalness,
-    transmission: opacity < 1 ? 0.35 : 0,
-    transparent: opacity < 1,
-    opacity,
-    clearcoat: 0.8,
-    clearcoatRoughness: 0.14
-  });
+  return new THREE.MeshPhysicalMaterial({ color, roughness, metalness, transmission: opacity < 1 ? 0.35 : 0, transparent: opacity < 1, opacity, clearcoat: 0.8, clearcoatRoughness: 0.14 });
 }
 
 function createCore() {
@@ -43,7 +34,6 @@ export function initByteCoreWorld(root, options = {}) {
   renderer.toneMappingExposure = 1.15;
   renderer.domElement.setAttribute('aria-hidden', 'true');
   renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;touch-action:none;';
-  root.replaceChildren(renderer.domElement);
 
   scene.add(new THREE.HemisphereLight('#ffffff', '#315b20', 2.6));
   const key = new THREE.DirectionalLight('#ffffff', 4.2);
@@ -114,6 +104,8 @@ export function initByteCoreWorld(root, options = {}) {
   const observer = new ResizeObserver(resize);
   observer.observe(root);
   resize();
+
+  root.replaceChildren(renderer.domElement);
 
   const clock = new THREE.Clock();
   let frame = 0;
