@@ -1,5 +1,3 @@
-import { spatialTransform } from './spatial.js';
-
 const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
 const search = document.querySelector('#global-search');
 const results = document.querySelector('#search-results');
@@ -7,9 +5,11 @@ const searchAction = document.querySelector('#search-action');
 const nav = document.querySelector('.navlinks');
 const menu = document.querySelector('.menu');
 const items = [...document.querySelectorAll('a[href], .feature-card, .semester')].filter((item) => !item.closest('header'));
+
 const searchable = (item) => `${item.dataset.search || ''} ${item.textContent || ''}`.replace(/\s+/g, ' ').trim();
 
 function renderSearchResults(matches) {
+  if (!results) return;
   results.replaceChildren();
   if (!matches.length) {
     const p = document.createElement('p');
@@ -17,7 +17,7 @@ function renderSearchResults(matches) {
     results.append(p);
     return;
   }
-  for (const item of matches) {
+  matches.forEach((item) => {
     const link = document.createElement('a');
     const strong = document.createElement('strong');
     const meta = document.createElement('span');
@@ -26,12 +26,12 @@ function renderSearchResults(matches) {
     meta.textContent = item.textContent.trim();
     link.append(strong, meta);
     results.append(link);
-  }
+  });
 }
 
 function runSearch() {
-  const query = (search?.value || '').trim().toLowerCase();
   if (!results) return;
+  const query = (search?.value || '').trim().toLowerCase();
   if (!query) {
     results.hidden = true;
     results.replaceChildren();
@@ -52,61 +52,60 @@ search?.addEventListener('keydown', (event) => {
 });
 searchAction?.addEventListener('click', runSearch);
 menu?.addEventListener('click', () => {
-  const open = nav?.classList.toggle('open');
+  const open = nav?.classList.toggle('open') ?? false;
   menu.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => anchor.addEventListener('click', () => nav?.classList.remove('open')));
 
-function setupPageTransitions() {
-  if (reduceMotion) return;
-  document.addEventListener('click', (event) => {
-    const anchor = event.target.closest?.('a[href]');
-    if (!anchor || event.defaultPrevented) return;
-    if (anchor.target === '_blank' || anchor.hasAttribute('download')) return;
-    const url = new URL(anchor.href, window.location.href);
-    if (url.origin !== window.location.origin || url.pathname === window.location.pathname && url.hash) return;
-    if (!url.pathname.endsWith('.html') && url.pathname !== '/' && url.pathname !== '') return;
-    event.preventDefault();
-    document.body.classList.add('page-exit');
-    window.setTimeout(() => { window.location.href = url.href; }, 230);
+document.querySelectorAll('.navlinks a, .menu + * a').forEach((link) => {
+  link.addEventListener('click', () => nav?.classList.remove('open'));
+});
+
+function preparePageTransition(target) {
+  if (reduceMotion || !target || target.target || target.hasAttribute?.('download')) return Promise.resolve(false);
+  if (target.origin !== window.location.origin || target.href === window.location.href || target.hash) return Promise.resolve(false);
+  document.body.classList.add('page-exit');
+  return new Promise((resolve) => {
+    window.setTimeout(() => { window.location.href = target.href; resolve(true); }, 260);
   });
 }
-setupPageTransitions();
 
-const world = document.querySelector('#bytecore-world');
-const spatial = world?.querySelector('[data-spatial-world]');
-if (spatial && !reduceMotion) {
-  const apply = (x, y) => {
-    const transform = spatialTransform(x, y);
-    spatial.style.transform = `rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg) translate3d(${transform.translateX}px,${transform.translateY}px,0)`;
-  };
-  const reset = () => apply(0.5, 0.5);
-  const move = (clientX, clientY) => {
-    const rect = spatial.parentElement.getBoundingClientRect();
-    if (rect.width && rect.height) apply((clientX - rect.left) / rect.width, (clientY - rect.top) / rect.height);
-  };
-  spatial.addEventListener('pointermove', (event) => move(event.clientX, event.clientY));
-  spatial.addEventListener('pointerleave', reset);
-  spatial.addEventListener('pointercancel', reset);
+for (const link of document.querySelectorAll('a[href]')) {
+  link.addEventListener('click', (event) => {
+    const href = link.href;
+    if (!href || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const url = new URL(href, window.location.href);
+    if (url.origin !== window.location.origin || url.pathname === window.location.pathname && url.hash) return;
+    event.preventDefault();
+    preparePageTransition(link).then((handled) => { if (!handled) window.location.href = href; });
+  });
 }
 
-const sections = [...document.querySelectorAll('.section')];
-if ('IntersectionObserver' in window && !reduceMotion) {
-  const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-    if (entry.isIntersecting) entry.target.classList.add('is-visible');
-  }), { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
-  sections.forEach((section) => observer.observe(section));
-} else {
-  sections.forEach((section) => section.classList.add('is-visible'));
+for (const section of document.querySelectorAll('.section')) {
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .14, rootMargin: '0px 0px -8% 0px' });
+    observer.observe(section);
+  } else {
+    section.classList.add('is-visible');
+  }
 }
 
 (async () => {
-  if (!world || reduceMotion || !window.WebGLRenderingContext) return;
+  const stage = document.querySelector('[data-bytecore-3d]');
+  if (!stage || reduceMotion || !window.WebGLRenderingContext) return;
   try {
     const { initByteCoreWorld } = await import('./three-world.js');
-    initByteCoreWorld(world);
+    const mode = stage.dataset.bytecore3d || 'home';
+    stage.dataset.ready = 'true';
+    initByteCoreWorld(stage, mode);
   } catch (error) {
-    world.dataset.threeFallback = 'true';
-    console.info('ByteCore 3D runtime unavailable; CSS world retained.', error?.message || error);
+    stage.dataset.threeFallback = 'true';
+    console.info('ByteCore 3D runtime unavailable; CSS fallback retained.', error?.message || error);
   }
 })();
