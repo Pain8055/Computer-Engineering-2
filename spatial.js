@@ -1,8 +1,12 @@
+const numeric = (value, fallback = 0.5) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+};
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 export function spatialTransform(normalizedX = 0.5, normalizedY = 0.5) {
-  const x = clamp(Number(normalizedX) || 0.5, 0, 1);
-  const y = clamp(Number(normalizedY) || 0.5, 0, 1);
+  const x = clamp(numeric(normalizedX), 0, 1);
+  const y = clamp(numeric(normalizedY), 0, 1);
   return {
     rotateX: Number((7 - y * 14).toFixed(2)),
     rotateY: Number((-11 + x * 22).toFixed(2)),
@@ -12,8 +16,8 @@ export function spatialTransform(normalizedX = 0.5, normalizedY = 0.5) {
 }
 
 export function spatialDepth(index, total) {
-  const count = Math.max(1, Number(total) || 1);
-  const i = Math.max(0, Number(index) || 0);
+  const count = Math.max(1, numeric(total, 1));
+  const i = Math.max(0, numeric(index, 0));
   const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
   return {
     x: Number((Math.cos(angle) * 42).toFixed(2)),
