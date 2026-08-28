@@ -1,9 +1,12 @@
-const CACHE = 'bytecore-shell-v2';
+const CACHE = 'bytecore-shell-v3';
+const BYTECORE_CACHES = new Set(['bytecore-shell-v1', 'bytecore-shell-v2', CACHE]);
 const SHELL = [
   './',
   './index.html',
   './academics.html',
   './styles/bytecore.css',
+  './styles/bytecore-v2.css',
+  './styles/bytecore-spatial.css',
   './app.js',
   './spatial.js',
   './manifest.webmanifest'
@@ -11,24 +14,27 @@ const SHELL = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => Promise.all(
-      keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))
+      keys.filter((key) => BYTECORE_CACHES.has(key) && key !== CACHE)
+        .map((key) => caches.delete(key))
     )).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+        if (response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+        }
         return response;
       })
       .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./index.html')))
