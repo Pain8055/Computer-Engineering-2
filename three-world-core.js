@@ -9,7 +9,24 @@ export function cameraMotion(normalizedX = 0.5, normalizedY = 0.5, mobile = fals
 
 export function qualityProfile(width, prefersReducedMotion = false) {
   const mobile = numeric(width, 1024) <= 700;
-  return { mobile, pixelRatio: mobile ? 1 : 1.5, satellites: mobile ? 5 : 9, animate: !prefersReducedMotion };
+  return {
+    mobile,
+    pixelRatio: mobile ? 1.25 : 2,
+    satellites: mobile ? 6 : 9,
+    detail: mobile ? 'medium' : 'high',
+    animate: !prefersReducedMotion
+  };
+}
+
+export function interactionProfile(width, prefersReducedMotion = false) {
+  const mobile = numeric(width, 1024) <= 700;
+  return {
+    dragScale: mobile ? 0.0048 : 0.006,
+    autoRotate: mobile ? 0.032 : 0.045,
+    hoverRotate: mobile ? 0.08 : 0.12,
+    momentum: 0.94,
+    float: !prefersReducedMotion
+  };
 }
 
 export function academicNode(index, total = 9) {
