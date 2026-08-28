@@ -1,14 +1,17 @@
-const CACHE = 'bytecore-shell-v3';
-const BYTECORE_CACHES = new Set(['bytecore-shell-v1', 'bytecore-shell-v2', CACHE]);
+const CACHE = 'bytecore-shell-v4';
+const BYTECORE_CACHES = new Set(['bytecore-shell-v1', 'bytecore-shell-v2', 'bytecore-shell-v3', CACHE]);
 const SHELL = [
   './',
   './index.html',
   './academics.html',
+  './styles/reference-bytecore.css',
   './styles/bytecore.css',
   './styles/bytecore-v2.css',
   './styles/bytecore-spatial.css',
   './app.js',
   './spatial.js',
+  './three-world-core.js',
+  './three-world.js',
   './manifest.webmanifest'
 ];
 
@@ -20,8 +23,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => Promise.all(
-      keys.filter((key) => BYTECORE_CACHES.has(key) && key !== CACHE)
-        .map((key) => caches.delete(key))
+      keys.filter((key) => BYTECORE_CACHES.has(key) && key !== CACHE).map((key) => caches.delete(key))
     )).then(() => self.clients.claim())
   );
 });
