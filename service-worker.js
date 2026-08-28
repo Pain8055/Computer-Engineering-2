@@ -5,6 +5,8 @@ const SHELL = [
   './index.html',
   './academics.html',
   './styles/bytecore.css',
+  './styles/bytecore-v2.css',
+  './styles/bytecore-spatial.css',
   './app.js',
   './spatial.js',
   './manifest.webmanifest'
@@ -26,7 +28,6 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-
   event.respondWith(
     fetch(event.request)
       .then((response) => {
