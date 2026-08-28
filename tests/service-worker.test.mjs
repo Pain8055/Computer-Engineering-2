@@ -9,6 +9,7 @@ test('service worker rotates its shell cache and includes the module dependency'
   assert.match(serviceWorker, /['"]\.\/spatial\.js['"]/);
 });
 
-test('service worker does not serve stale cached HTML forever', () => {
-  assert.match(serviceWorker, /cache-first|network-first|fetch\(e\.request\)/);
+test('service worker fetches fresh resources before using the offline cache', () => {
+  assert.match(serviceWorker, /fetch\(event\.request\)/);
+  assert.match(serviceWorker, /catch\(\(\) => caches\.match\(event\.request\)/);
 });
