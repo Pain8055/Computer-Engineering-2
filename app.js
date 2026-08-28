@@ -41,16 +41,27 @@ function buildSpatialWorld() {
   loadSpatialStyles();
   world.dataset.enhanced = 'true';
   const labels = ['SYLLABUS','SUBJECTS','UNITS','TOPICS','NOTES','PRACTICE','PYQs','TUTOR'];
-  labels.forEach((label, index) => {
+  const nodes = labels.map((label, index) => {
     const depth = spatialDepth(index, labels.length);
     const node = document.createElement('span');
     node.className = 'spatial-node';
     node.dataset.depth = Math.abs(depth.z) > 40 ? 'high' : 'normal';
     node.textContent = label;
-    node.style.transform = `translate3d(${depth.x}%,${depth.y}%,${depth.z}px)`;
-    node.style.setProperty('--x', `${depth.x}%`);
-    node.style.setProperty('--y', `${depth.y}%`);
+    node.style.left = `calc(50% + ${depth.x}%)`;
+    node.style.top = `calc(50% + ${depth.y}%)`;
+    node.style.transform = `translate(-50%,-50%) translateZ(${depth.z}px)`;
     world.appendChild(node);
+    return node;
+  });
+  nodes.forEach((node, index) => {
+    const line = document.createElement('span');
+    line.className = 'spatial-link';
+    const depth = spatialDepth(index, labels.length);
+    const length = Math.hypot(depth.x, depth.y) * 1.9;
+    const angle = Math.atan2(depth.y, depth.x) * 180 / Math.PI;
+    line.style.width = `${Math.max(42, length)}%`;
+    line.style.transform = `rotate(${angle}deg) translateZ(${Math.max(-20, depth.z - 35)}px)`;
+    world.appendChild(line);
   });
   ['a','b'].forEach((kind) => {
     const orbit = document.createElement('span');
