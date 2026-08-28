@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
 import { spatialDepth, spatialTransform } from '../spatial.js';
 
 test('spatialTransform maps normalized pointer position to bounded 3D motion', () => {
@@ -16,4 +17,11 @@ test('spatialDepth produces deterministic depth-separated graph positions', () =
   assert.equal(new Set(points.map((point) => `${point.x}:${point.y}:${point.z}`)).size, 8);
   assert.ok(points.some((point) => point.z > 40));
   assert.ok(points.some((point) => point.z < -40));
+});
+
+test('navigation transition code is motion-aware', async () => {
+  const app = await fs.readFile(new URL('../app.js', import.meta.url), 'utf8');
+  const css = await fs.readFile(new URL('../styles/bytecore-2-1.css', import.meta.url), 'utf8');
+  assert.match(app, /prefers-reduced-motion/);
+  assert.match(css, /page-exit/);
 });
