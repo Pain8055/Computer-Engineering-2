@@ -24,21 +24,23 @@ search?.addEventListener('keydown', (event) => {
 menu?.addEventListener('click', () => nav?.classList.toggle('open'));
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => anchor.addEventListener('click', () => nav?.classList.remove('open')));
 
-const world = document.querySelector('[data-spatial-world]');
-const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-
-function loadSpatialStyles() {
-  if (document.querySelector('link[data-bytecore-spatial]')) return;
+function loadStyles(path, marker) {
+  if (document.querySelector(`link[data-bytecore-style="${marker}"]`)) return;
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = './styles/bytecore-spatial.css?v=2';
-  link.dataset.bytecoreSpatial = 'true';
+  link.href = `${path}?v=2`;
+  link.dataset.bytecoreStyle = marker;
   document.head.appendChild(link);
 }
 
+loadStyles('./styles/bytecore-v2.css', 'global-v2');
+
+const world = document.querySelector('[data-spatial-world]');
+const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+
 function buildSpatialWorld() {
   if (!world || world.dataset.enhanced) return;
-  loadSpatialStyles();
+  loadStyles('./styles/bytecore-spatial.css', 'spatial-v2');
   world.dataset.enhanced = 'true';
   const labels = ['SYLLABUS','SUBJECTS','UNITS','TOPICS','NOTES','PRACTICE','PYQs','TUTOR'];
   const nodes = labels.map((label, index) => {
@@ -53,14 +55,12 @@ function buildSpatialWorld() {
     world.appendChild(node);
     return node;
   });
-  nodes.forEach((node, index) => {
+  nodes.forEach((_, index) => {
     const line = document.createElement('span');
     line.className = 'spatial-link';
     const depth = spatialDepth(index, labels.length);
-    const length = Math.hypot(depth.x, depth.y) * 1.9;
-    const angle = Math.atan2(depth.y, depth.x) * 180 / Math.PI;
-    line.style.width = `${Math.max(42, length)}%`;
-    line.style.transform = `rotate(${angle}deg) translateZ(${Math.max(-20, depth.z - 35)}px)`;
+    line.style.width = `${Math.max(42, Math.hypot(depth.x, depth.y) * 1.9)}%`;
+    line.style.transform = `rotate(${Math.atan2(depth.y, depth.x) * 180 / Math.PI}deg) translateZ(${Math.max(-20, depth.z - 35)}px)`;
     world.appendChild(line);
   });
   ['a','b'].forEach((kind) => {
