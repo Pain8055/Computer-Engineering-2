@@ -1,151 +1,27 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
 import { academicNode, cameraMotion, qualityProfile } from './three-world-core.js';
 
-const LABELS = ['SYLLABUS', 'SUBJECTS', 'UNITS', 'TOPICS', 'NOTES', 'PRACTICE', 'PYQs', 'TUTOR', 'WORKSPACE'];
+const LABELS=['SYLLABUS','SUBJECTS','UNITS','TOPICS','NOTES','PRACTICE','PYQs','AI TUTOR','WORKSPACE'];
 
-function makeMaterial(color, roughness = 0.22, metalness = 0.55, opacity = 1) {
-  return new THREE.MeshPhysicalMaterial({ color, roughness, metalness, transmission: opacity < 1 ? 0.35 : 0, transparent: opacity < 1, opacity, clearcoat: 0.8, clearcoatRoughness: 0.14 });
-}
+function material(color,roughness=.22,metalness=.55,opacity=1){return new THREE.MeshPhysicalMaterial({color,roughness,metalness,transmission:opacity<1?.35:0,transparent:opacity<1,opacity,clearcoat:.8,clearcoatRoughness:.14})}
+function labelSprite(text){const canvas=document.createElement('canvas');canvas.width=320;canvas.height=88;const ctx=canvas.getContext('2d');ctx.clearRect(0,0,320,88);ctx.fillStyle='rgba(3,12,16,.86)';ctx.strokeStyle='rgba(139,225,232,.7)';ctx.lineWidth=2;ctx.roundRect(5,8,310,62,20);ctx.fill();ctx.stroke();ctx.font='800 22px Inter,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#F4FBFC';ctx.fillText(text,160,39);const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,transparent:true,depthWrite:false}));sprite.scale.set(1.42,.39,1);sprite.position.set(0,-.55,.05);return sprite}
+function createCore(){const group=new THREE.Group();const shell=new THREE.Mesh(new THREE.IcosahedronGeometry(1.08,3),material('#2EACB9',.12,.8));const inner=new THREE.Mesh(new THREE.OctahedronGeometry(.58,2),material('#8BE1E8',.08,.65));const ring=new THREE.Mesh(new THREE.TorusGeometry(1.34,.018,12,96),new THREE.MeshBasicMaterial({color:'#ffffff',transparent:true,opacity:.7}));ring.rotation.x=Math.PI*.42;group.add(shell,inner,ring);return group}
 
-function createCore() {
-  const group = new THREE.Group();
-  const shell = new THREE.Mesh(new THREE.IcosahedronGeometry(1.08, 2), makeMaterial('#E5F985', 0.14, 0.72));
-  const inner = new THREE.Mesh(new THREE.OctahedronGeometry(0.58, 1), makeMaterial('#82AF38', 0.08, 0.65));
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(1.32, 0.018, 12, 96), new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.72 }));
-  ring.rotation.x = Math.PI * 0.42;
-  group.add(shell, inner, ring);
-  return group;
-}
-
-export function initByteCoreWorld(root, options = {}) {
-  if (!root || !root.ownerDocument) return { destroy() {} };
-  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
-  const profile = qualityProfile(window.innerWidth, reduced);
-  const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2('#82AF38', 0.055);
-  const camera = new THREE.PerspectiveCamera(profile.mobile ? 32 : 26, 1, 0.1, 100);
-  camera.position.set(0, 0.15, profile.mobile ? 8.6 : 7.4);
-
-  const renderer = new THREE.WebGLRenderer({ antialias: !profile.mobile, alpha: true, powerPreference: profile.mobile ? 'default' : 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, profile.pixelRatio));
-  renderer.setClearColor('#82AF38', 0);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
-  renderer.domElement.setAttribute('aria-hidden', 'true');
-  renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;touch-action:none;';
-
-  scene.add(new THREE.HemisphereLight('#ffffff', '#315b20', 2.6));
-  const key = new THREE.DirectionalLight('#ffffff', 4.2);
-  key.position.set(4, 5, 6);
-  scene.add(key);
-  const fill = new THREE.PointLight('#E5F985', 8, 14);
-  fill.position.set(-3, -1, 4);
-  scene.add(fill);
-
-  const world = new THREE.Group();
-  scene.add(world);
-  const core = createCore();
-  world.add(core);
-
-  const satellites = [];
-  const count = profile.satellites;
-  for (let i = 0; i < count; i += 1) {
-    const p = academicNode(i, count);
-    const group = new THREE.Group();
-    group.position.set(p.x, p.y, p.z);
-    const size = i % 3 === 0 ? 0.27 : 0.19;
-    const geometry = i % 3 === 0 ? new THREE.IcosahedronGeometry(size, 1) : new THREE.SphereGeometry(size, 18, 18);
-    const mesh = new THREE.Mesh(geometry, makeMaterial(i % 2 ? '#ffffff' : '#E5F985', i % 2 ? 0.18 : 0.12, 0.35, i % 4 === 0 ? 0.82 : 1));
-    group.add(mesh);
-    satellites.push({ group, mesh, phase: i * 0.73, label: LABELS[i] });
-    world.add(group);
-  }
-
-  const lineMaterial = new THREE.LineBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.25 });
-  satellites.forEach((satellite) => {
-    const points = [new THREE.Vector3(0, 0, 0), satellite.group.position.clone()];
-    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), lineMaterial);
-    world.add(line);
-  });
-
-  const pointer = { x: 0, y: 0, targetX: 0, targetY: 0, down: false, lastX: 0, lastY: 0 };
-  const onPointerMove = (event) => {
-    if (pointer.down) {
-      pointer.targetY += (event.clientX - pointer.lastX) * 0.006;
-      pointer.targetX += (event.clientY - pointer.lastY) * 0.006;
-      pointer.lastX = event.clientX;
-      pointer.lastY = event.clientY;
-      return;
-    }
-    const rect = root.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width;
-    const y = (event.clientY - rect.top) / rect.height;
-    const motion = cameraMotion(x, y, profile.mobile);
-    pointer.targetX = motion.x * Math.PI / 18;
-    pointer.targetY = motion.y * Math.PI / 18;
-  };
-  const onPointerDown = (event) => { pointer.down = true; pointer.lastX = event.clientX; pointer.lastY = event.clientY; root.setPointerCapture?.(event.pointerId); };
-  const onPointerUp = (event) => { pointer.down = false; root.releasePointerCapture?.(event.pointerId); };
-  const onPointerLeave = () => { if (!pointer.down) { pointer.targetX = 0; pointer.targetY = 0; } };
-  root.addEventListener('pointermove', onPointerMove);
-  root.addEventListener('pointerdown', onPointerDown);
-  root.addEventListener('pointerup', onPointerUp);
-  root.addEventListener('pointercancel', onPointerUp);
-  root.addEventListener('pointerleave', onPointerLeave);
-
-  const resize = () => {
-    const width = Math.max(1, root.clientWidth);
-    const height = Math.max(1, root.clientHeight);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height, false);
-  };
-  const observer = new ResizeObserver(resize);
-  observer.observe(root);
-  resize();
-
-  root.replaceChildren(renderer.domElement);
-
-  const clock = new THREE.Clock();
-  let frame = 0;
-  const animate = () => {
-    frame = requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-    pointer.x += (pointer.targetX - pointer.x) * 0.055;
-    pointer.y += (pointer.targetY - pointer.y) * 0.055;
-    world.rotation.x = pointer.x + (profile.animate ? Math.sin(t * 0.18) * 0.035 : 0);
-    world.rotation.y = pointer.y + (profile.animate ? t * 0.045 : 0);
-    core.rotation.x = profile.animate ? t * 0.11 : 0;
-    core.rotation.y = profile.animate ? t * 0.16 : 0;
-    satellites.forEach((satellite, i) => {
-      if (!profile.animate) return;
-      const s = Math.sin(t * 0.55 + satellite.phase);
-      satellite.mesh.position.y = s * 0.055;
-      satellite.mesh.rotation.x = t * (0.16 + i * 0.008);
-      satellite.mesh.rotation.y = t * (0.2 + i * 0.01);
-    });
-    renderer.render(scene, camera);
-  };
-  animate();
-
-  return {
-    destroy() {
-      cancelAnimationFrame(frame);
-      observer.disconnect();
-      root.removeEventListener('pointermove', onPointerMove);
-      root.removeEventListener('pointerdown', onPointerDown);
-      root.removeEventListener('pointerup', onPointerUp);
-      root.removeEventListener('pointercancel', onPointerUp);
-      root.removeEventListener('pointerleave', onPointerLeave);
-      renderer.dispose();
-      scene.traverse((object) => {
-        if (object.geometry) object.geometry.dispose();
-        if (object.material) {
-          const materials = Array.isArray(object.material) ? object.material : [object.material];
-          materials.forEach((material) => material.dispose());
-        }
-      });
-    }
-  };
+export function initByteCoreWorld(root){
+ if(!root||!root.ownerDocument)return{destroy(){}};
+ const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches??false;const profile=qualityProfile(window.innerWidth,reduced);
+ const scene=new THREE.Scene();scene.fog=new THREE.FogExp2('#03090d',.045);const camera=new THREE.PerspectiveCamera(profile.mobile?34:28,1,.1,100);camera.position.set(0,.15,profile.mobile?8.4:7.1);
+ const renderer=new THREE.WebGLRenderer({antialias:!profile.mobile,alpha:true,powerPreference:profile.mobile?'default':'high-performance'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,profile.pixelRatio));renderer.setClearColor('#03090d',0);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;renderer.domElement.setAttribute('aria-hidden','true');renderer.domElement.style.cssText='width:100%;height:100%;display:block;touch-action:none;';
+ scene.add(new THREE.HemisphereLight('#dfffff','#03151a',2.5));const key=new THREE.DirectionalLight('#ffffff',4);key.position.set(4,5,6);scene.add(key);const fill=new THREE.PointLight('#2EACB9',10,16);fill.position.set(-3,-1,4);scene.add(fill);const rim=new THREE.PointLight('#B8E66B',6,12);rim.position.set(3,2,-1);scene.add(rim);
+ const world=new THREE.Group();scene.add(world);const core=createCore();world.add(core);
+ const satellites=[];const count=profile.satellites;
+ for(let i=0;i<count;i++){const p=academicNode(i,count);const group=new THREE.Group();group.position.set(p.x,p.y,p.z);const size=i%3===0?.27:.19;const mesh=new THREE.Mesh(i%3===0?new THREE.IcosahedronGeometry(size,1):new THREE.SphereGeometry(size,18,18),material(i%2?'#ffffff':'#B8E66B',i%2?.18:.12,.4,i%4===0?.84:1));group.add(mesh);const label=labelSprite(LABELS[i]);label.scale.multiplyScalar(profile.mobile?.75:1);group.add(label);satellites.push({group,mesh,phase:i*.73});world.add(group)}
+ const lineMaterial=new THREE.LineBasicMaterial({color:'#8BE1E8',transparent:true,opacity:.18});satellites.forEach(s=>world.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),s.group.position.clone()]),lineMaterial)));
+ const pointer={x:0,y:0,targetX:0,targetY:0,down:false,lastX:0,lastY:0,hover:false};
+ const onPointerMove=e=>{if(pointer.down){pointer.targetY+=(e.clientX-pointer.lastX)*.006;pointer.targetX+=(e.clientY-pointer.lastY)*.006;pointer.lastX=e.clientX;pointer.lastY=e.clientY;return}const r=root.getBoundingClientRect();if(!r.width||!r.height)return;const m=cameraMotion((e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height,profile.mobile);pointer.targetX=m.x*Math.PI/18;pointer.targetY=m.y*Math.PI/18};
+ const onPointerDown=e=>{pointer.down=true;pointer.lastX=e.clientX;pointer.lastY=e.clientY;root.setPointerCapture?.(e.pointerId)};const onPointerUp=e=>{pointer.down=false;root.releasePointerCapture?.(e.pointerId)};const onEnter=()=>{pointer.hover=true};const onLeave=()=>{pointer.hover=false;if(!pointer.down){pointer.targetX=0;pointer.targetY=0}};
+ root.addEventListener('pointermove',onPointerMove);root.addEventListener('pointerdown',onPointerDown);root.addEventListener('pointerup',onPointerUp);root.addEventListener('pointercancel',onPointerUp);root.addEventListener('pointerenter',onEnter);root.addEventListener('pointerleave',onLeave);
+ const resize=()=>{const w=Math.max(1,root.clientWidth),h=Math.max(1,root.clientHeight);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false)};const observer=new ResizeObserver(resize);observer.observe(root);resize();root.replaceChildren(renderer.domElement);
+ const clock=new THREE.Clock();let frame=0;const animate=()=>{frame=requestAnimationFrame(animate);const t=clock.getElapsedTime();pointer.x+=(pointer.targetX-pointer.x)*.055;pointer.y+=(pointer.targetY-pointer.y)*.055;const idle=profile.animate?(pointer.hover?t*.12:t*.045):0;world.rotation.x=pointer.x+(profile.animate?Math.sin(t*.18)*.025:0);world.rotation.y=pointer.y+idle;core.rotation.x=profile.animate?t*.1:0;core.rotation.y=profile.animate?t*.14:0;satellites.forEach((s,i)=>{if(!profile.animate)return;const bob=Math.sin(t*.55+s.phase)*.05;s.mesh.position.y=bob;s.mesh.rotation.x=t*(.16+i*.008);s.mesh.rotation.y=t*(.2+i*.01);s.group.children[1].quaternion.copy(camera.quaternion)});renderer.render(scene,camera)};animate();
+ return{destroy(){cancelAnimationFrame(frame);observer.disconnect();root.removeEventListener('pointermove',onPointerMove);root.removeEventListener('pointerdown',onPointerDown);root.removeEventListener('pointerup',onPointerUp);root.removeEventListener('pointercancel',onPointerUp);root.removeEventListener('pointerenter',onEnter);root.removeEventListener('pointerleave',onLeave);renderer.dispose();scene.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{m.map?.dispose();m.dispose()})}})}}
 }
