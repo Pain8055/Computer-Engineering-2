@@ -18,5 +18,5 @@ test('service worker activates immediately and only removes ByteCore cache versi
 
 test('service worker fetches fresh resources before using the offline cache', () => {
   assert.match(serviceWorker, /fetch\(event\.request\)/);
-  assert.match(serviceWorker, /catch\(\(\) => caches\.match\(event\.request\)/);
+  assert.match(serviceWorker, /catch\(\(\)\s*=>\s*caches\.match\(event\.request\)/);
 });
