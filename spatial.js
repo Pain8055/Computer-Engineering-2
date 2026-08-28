@@ -1,12 +1,23 @@
-const clamp01 = (value) => Math.min(1, Math.max(0, Number(value) || 0));
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
-export function spatialTransform(normalizedX, normalizedY) {
-  const x = clamp01(normalizedX);
-  const y = clamp01(normalizedY);
+export function spatialTransform(normalizedX = 0.5, normalizedY = 0.5) {
+  const x = clamp(Number(normalizedX) || 0.5, 0, 1);
+  const y = clamp(Number(normalizedY) || 0.5, 0, 1);
   return {
-    rotateX: Number((6 - y * 12).toFixed(2)),
-    rotateY: Number((-8 + x * 16).toFixed(2)),
-    translateX: Number((-5 + x * 10).toFixed(1)),
-    translateY: Number((-5 + y * 10).toFixed(1))
+    rotateX: Number((7 - y * 14).toFixed(2)),
+    rotateY: Number((-11 + x * 22).toFixed(2)),
+    translateX: Number((-10 + x * 20).toFixed(1)),
+    translateY: Number((-8 + y * 16).toFixed(1))
+  };
+}
+
+export function spatialDepth(index, total) {
+  const count = Math.max(1, Number(total) || 1);
+  const i = Math.max(0, Number(index) || 0);
+  const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
+  return {
+    x: Number((Math.cos(angle) * 42).toFixed(2)),
+    y: Number((Math.sin(angle) * 34).toFixed(2)),
+    z: Number((Math.sin(angle * 1.7) * 70).toFixed(2))
   };
 }
