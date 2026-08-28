@@ -6,14 +6,39 @@ const nav = document.querySelector('.navlinks');
 const menu = document.querySelector('.menu');
 const items = [...document.querySelectorAll('[data-search]')];
 
+function renderSearchResults(matches) {
+  results.replaceChildren();
+
+  if (!matches.length) {
+    const message = document.createElement('p');
+    message.textContent = 'No indexed result. Try a subject, semester, topic, PYQ, or note.';
+    results.append(message);
+    return;
+  }
+
+  for (const item of matches) {
+    const link = document.createElement('a');
+    const strong = document.createElement('strong');
+    const meta = document.createElement('span');
+    const href = item.getAttribute('href') || '#';
+
+    link.href = href;
+    strong.textContent = item.dataset.search || '';
+    meta.textContent = item.textContent.trim();
+    link.append(strong, meta);
+    results.append(link);
+  }
+}
+
 function runSearch() {
   const q = (search?.value || '').trim().toLowerCase();
   if (!results) return;
-  if (!q) { results.hidden = true; return; }
+  if (!q) { results.hidden = true; results.replaceChildren(); return; }
   const matches = items.filter((x) => x.dataset.search.toLowerCase().includes(q)).slice(0, 8);
-  results.innerHTML = matches.length ? matches.map((x) => `<a href="${x.getAttribute('href') || '#'}"><strong>${x.dataset.search}</strong><span>${x.textContent.trim()}</span></a>`).join('') : '<p>No indexed result. Try a subject, semester, topic, PYQ, or note.</p>';
+  renderSearchResults(matches);
   results.hidden = false;
 }
+
 search?.addEventListener('input', runSearch);
 search?.addEventListener('keydown', (event) => { if (event.key === 'Escape') { search.value = ''; runSearch(); search.blur(); } });
 menu?.addEventListener('click', () => nav?.classList.toggle('open'));
