@@ -1,13 +1,19 @@
-const CACHE = 'bytecore-shell-v4';
-const BYTECORE_CACHES = new Set(['bytecore-shell-v1', 'bytecore-shell-v2', 'bytecore-shell-v3', CACHE]);
+const CACHE = 'bytecore-shell-v5';
+const BYTECORE_CACHES = new Set([
+  'bytecore-shell-v1',
+  'bytecore-shell-v2',
+  'bytecore-shell-v3',
+  'bytecore-shell-v4',
+  CACHE
+]);
+
 const SHELL = [
   './',
   './index.html',
   './academics.html',
+  './styles/bytecore-2-1.css',
   './styles/reference-bytecore.css',
   './styles/bytecore.css',
-  './styles/bytecore-v2.css',
-  './styles/bytecore-spatial.css',
   './app.js',
   './spatial.js',
   './three-world-core.js',
@@ -16,20 +22,27 @@ const SHELL = [
 ];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));
+  event.waitUntil(
+    caches.open(CACHE).then((cache) => cache.addAll(SHELL))
+  );
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(
-      keys.filter((key) => BYTECORE_CACHES.has(key) && key !== CACHE).map((key) => caches.delete(key))
-    )).then(() => self.clients.claim())
+    caches.keys()
+      .then((keys) => Promise.all(
+        keys
+          .filter((key) => BYTECORE_CACHES.has(key) && key !== CACHE)
+          .map((key) => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
@@ -39,6 +52,10 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       })
-      .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./index.html')))
+      .catch(() =>
+        caches.match(event.request).then(
+          (cached) => cached || caches.match('./index.html')
+        )
+      )
   );
 });
