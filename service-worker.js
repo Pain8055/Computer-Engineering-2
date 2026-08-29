@@ -1,10 +1,10 @@
-const CACHE = 'bytecore-shell-v7';
+const CACHE = 'bytecore-shell-v8';
 const BYTECORE_CACHES = new Set([
-  'bytecore-shell-v1','bytecore-shell-v2','bytecore-shell-v3','bytecore-shell-v4','bytecore-shell-v5','bytecore-shell-v6',CACHE
+  'bytecore-shell-v1','bytecore-shell-v2','bytecore-shell-v3','bytecore-shell-v4','bytecore-shell-v5','bytecore-shell-v6','bytecore-shell-v7',CACHE
 ]);
 const SHELL = [
   './','./index.html','./academics.html',
-  './styles/bytecore-2-1.css','./styles/reference-bytecore.css','./styles/bytecore-spatial.css',
+  './styles/bytecore-2-1.css','./styles/reference-bytecore.css','./styles/bytecore-spatial.css','./styles/bytecore-4d.css',
   './app.js','./spatial.js','./three-world-core.js','./three-world.js','./manifest.webmanifest'
 ];
 self.addEventListener('install',(event)=>{
