@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const css = fs.readFileSync(new URL('../styles/bytecore-2-1.css', import.meta.url), 'utf8');
+const spatialCss = fs.readFileSync(new URL('../styles/bytecore-4d.css', import.meta.url), 'utf8');
 const home = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const academics = fs.readFileSync(new URL('../academics.html', import.meta.url), 'utf8');
 const app = fs.readFileSync(new URL('../app.js', import.meta.url), 'utf8');
@@ -24,11 +25,22 @@ test('landing uses one isolated real 3D stage', () => {
   assert.match(three, /MeshPhysicalMaterial/);
 });
 
-test('academic vault has its own spatial continuation', () => {
+test('academic vault has its own dimensional 3D continuation', () => {
   assert.match(academics, /styles\/reference-bytecore\.css/);
+  assert.match(academics, /styles\/bytecore-4d\.css/);
   assert.match(academics, /data-bytecore-3d="vault"/);
   assert.match(academics, /class="vault-stage"/);
   assert.match(academics, /CONTENT INTEGRITY/);
+  assert.match(three, /createVaultArtifact/);
+  assert.match(three, /vaultPortal/);
+  assert.match(three, /updateHyperGeometry/);
+});
+
+test('4D presentation layer keeps the stage large and responsive', () => {
+  assert.match(spatialCss, /\.vault-stage/);
+  assert.match(spatialCss, /height:min\(760px,66vw\)/);
+  assert.match(spatialCss, /@media\(max-width:620px\)/);
+  assert.match(spatialCss, /prefers-reduced-motion:reduce/);
 });
 
 test('responsive, reduced-motion and cinematic transitions exist', () => {

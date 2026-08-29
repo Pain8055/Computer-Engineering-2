@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import { academicNode, cameraMotion, decayVelocity, pageDepth, qualityProfile, rendererProfile, spinProfile } from '../three-world-core.js';
+import { academicNode, cameraMotion, decayVelocity, pageDepth, qualityProfile, rendererProfile, spinProfile, vaultPortal } from '../three-world-core.js';
 
 test('camera motion stays bounded and flips naturally across the viewport', () => {
   assert.deepEqual(cameraMotion(0, 0, false), { x: 0.15, y: -0.15 });
@@ -48,6 +48,14 @@ test('academic nodes are deterministic and spatially distributed', () => {
   assert.ok(nodes.some((node) => node.z < -1));
 });
 
+test('vault portals occupy a dimensional ring with stable depth', () => {
+  const portals = Array.from({ length: 6 }, (_, index) => vaultPortal(index, 6));
+  assert.equal(new Set(portals.map((portal) => JSON.stringify(portal))).size, 6);
+  assert.ok(portals.every((portal) => Number.isFinite(portal.x) && Number.isFinite(portal.y) && Number.isFinite(portal.z)));
+  assert.ok(Math.max(...portals.map((portal) => portal.z)) > 0.5);
+  assert.ok(Math.min(...portals.map((portal) => portal.z)) < -0.5);
+});
+
 test('renderer profile is 4k-capable while remaining bounded', () => {
   const desktop = rendererProfile(1440);
   const mobile = rendererProfile(390);
@@ -65,7 +73,7 @@ test('page depth is bounded and monotonic', () => {
   assert.ok(end.coreScale > start.coreScale);
 });
 
-test('3D world source contains physically based rendering and tactile interaction', async () => {
+test('3D world source contains physically based rendering, tactile interaction and vault mode', async () => {
   const source = await fs.readFile(new URL('../three-world.js', import.meta.url), 'utf8');
   assert.match(source, /MeshPhysicalMaterial/);
   assert.match(source, /ACESFilmicToneMapping/);
@@ -73,4 +81,6 @@ test('3D world source contains physically based rendering and tactile interactio
   assert.match(source, /setPointerCapture/);
   assert.match(source, /velocityY/);
   assert.match(source, /hovered/);
+  assert.match(source, /mode === 'vault'/);
+  assert.match(source, /createVaultArtifact/);
 });

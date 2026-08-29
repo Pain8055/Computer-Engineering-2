@@ -34,6 +34,18 @@ export function academicNode(index = 0, total = 12) {
   };
 }
 
+export function vaultPortal(index = 0, total = 6) {
+  const count = Math.max(1, Math.floor(numeric(total, 6)));
+  const i = ((Math.floor(numeric(index, 0)) % count) + count) % count;
+  const theta = (i / count) * Math.PI * 2 - Math.PI / 2;
+  const radius = 3.25;
+  return {
+    x: Number((Math.cos(theta) * radius).toFixed(3)),
+    y: Number((Math.sin(theta) * 1.55).toFixed(3)),
+    z: Number((Math.cos(theta) * 1.15).toFixed(3))
+  };
+}
+
 export function cameraMotion(normalizedX = 0.5, normalizedY = 0.5, mobile = false) {
   const x = clamp(numeric(normalizedX, 0.5), 0, 1);
   const y = clamp(numeric(normalizedY, 0.5), 0, 1);
@@ -46,7 +58,7 @@ export function cameraMotion(normalizedX = 0.5, normalizedY = 0.5, mobile = fals
 
 export function spinProfile(hovered = false, prefersReducedMotion = false) {
   if (prefersReducedMotion) return { idle: 0, hover: 0, damping: 0.86 };
-  return { idle: 0.0018, hover: hovered ? 0.0048 : 0.0018, damping: 0.94 };
+  return { idle: 0.0018, hover: hovered ? 0.0048 : 0, damping: 0.94 };
 }
 
 export function decayVelocity(value, damping = 0.94) {
